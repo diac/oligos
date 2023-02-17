@@ -24,4 +24,9 @@ public class Formulation {
      * Наименование типа препарата
      */
     private String name;
+
+    /**
+     * Признак доступности типа препарата
+     */
+    private boolean available;
 }
