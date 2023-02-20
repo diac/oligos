@@ -30,4 +30,9 @@ public class Synthesis {
      * Тип основания
      */
     private BaseType baseType;
+
+    /**
+     * Артикул синтеза
+     */
+    private String sku;
 }
