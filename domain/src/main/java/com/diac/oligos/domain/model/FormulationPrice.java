@@ -26,9 +26,9 @@ public class FormulationPrice {
     private int amount;
 
     /**
-     * Тип препарата
+     * Артикул типа препарата
      */
-    private Formulation formulation;
+    private String formulationSku;
 
     /**
      * Прейскурант
