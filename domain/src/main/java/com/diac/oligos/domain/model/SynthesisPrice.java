@@ -26,9 +26,9 @@ public class SynthesisPrice {
     private int amount;
 
     /**
-     * Синтез
+     * Артикул синтеза
      */
-    private Synthesis synthesis;
+    private String synthesisSku;
 
     /**
      * Масштаб
