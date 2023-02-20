@@ -26,9 +26,9 @@ public class ModificationPrice {
     private int amount;
 
     /**
-     * Модификация
+     * Артикул модификатора
      */
-    private Modification modification;
+    private String modificationSku;
 
     /**
      * Масштаб
