@@ -43,4 +43,9 @@ public class Modification {
      * Типы модификатора
      */
     private Set<ModificationType> modificationTypes;
+
+    /**
+     * Артикул модификатора
+     */
+    private String sku;
 }
