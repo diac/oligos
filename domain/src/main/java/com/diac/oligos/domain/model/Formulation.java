@@ -29,4 +29,9 @@ public class Formulation {
      * Признак доступности типа препарата
      */
     private boolean available;
+
+    /**
+     * Артикул типа препарата
+     */
+    private String sku;
 }
