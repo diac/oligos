@@ -27,9 +27,9 @@ public class PurificationPrice {
     private int amount;
 
     /**
-     * Тип очистки
+     * Артикул типа очистки
      */
-    private Purification purification;
+    private String purificationSku;
 
     /**
      * Тип основания
