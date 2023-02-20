@@ -24,4 +24,9 @@ public class Purification {
      * Наименование типа очистки
      */
     private String name;
+
+    /**
+     * Артикул типа очистки
+     */
+    private String sku;
 }
