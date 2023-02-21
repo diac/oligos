@@ -9,4 +9,5 @@
     <include file="scripts/002_ddl_create_table_modification.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_ddl_create_table_purification.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_table_scale.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_create_table_shipping.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
