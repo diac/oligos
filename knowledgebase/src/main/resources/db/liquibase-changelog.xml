@@ -12,4 +12,5 @@
     <include file="scripts/005_ddl_create_table_shipping.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_table_synthesis.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_ddl_create_table_modification_purification.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_create_table_modification_modification_category.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
