@@ -45,6 +45,11 @@ public class Modification {
     private Set<ModificationType> modificationTypes;
 
     /**
+     * Доступные типы очистки
+     */
+    private Set<Purification> availablePurifications;
+
+    /**
      * Артикул модификатора
      */
     private String sku;
