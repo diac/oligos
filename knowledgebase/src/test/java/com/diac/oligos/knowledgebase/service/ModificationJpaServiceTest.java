@@ -7,9 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @ContextConfiguration(classes = {
@@ -60,6 +62,26 @@ public class ModificationJpaServiceTest {
     }
 
     @Test
+    public void whenAddWithNullFieldsThenThrowException() {
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> modificationService.add(buildModification(null))
+        );
+    }
+
+    @Test
+    public void whenAddDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Modification modification = buildModification(value);
+        Modification duplicateModification = buildModification(value);
+        modificationService.add(modification);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> modificationService.add(duplicateModification)
+        );
+    }
+
+    @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
         Modification modification = modificationService.add(buildModification(value));
@@ -71,6 +93,37 @@ public class ModificationJpaServiceTest {
         assertThat(modification.getName()).isEqualTo(updatedModification.getName());
         assertThat(modification.getCode()).isEqualTo(updatedModification.getCode());
         assertThat(modification.getSku()).isEqualTo(updatedModification.getSku());
+    }
+
+    @Test
+    public void whenUpdateWithNullValuesThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Modification modification = modificationService.add(buildModification(value));
+        modification.setName(null);
+        modification.setSku(null);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    modificationService.update(modification);
+                    modificationService.findAll();
+                }
+        );
+    }
+
+    @Test
+    public void whenUpdateDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Modification modification = modificationService.add(buildModification(value));
+        Modification duplicateModification = modificationService.add(buildModification(value + "_another"));
+        duplicateModification.setName(modification.getName());
+        duplicateModification.setSku(modification.getSku());
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    modificationService.update(duplicateModification);
+                    modificationService.findAll();
+                }
+        );
     }
 
     @Test
