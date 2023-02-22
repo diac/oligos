@@ -2,10 +2,7 @@ package com.diac.oligos.domain.model;
 
 import com.diac.oligos.domain.enumeration.BaseType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Модель данных "Синтез"
@@ -16,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 public class Synthesis {
 
     /**
