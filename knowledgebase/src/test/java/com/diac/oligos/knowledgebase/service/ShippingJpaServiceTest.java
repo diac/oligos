@@ -7,9 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @ContextConfiguration(classes = {
@@ -50,6 +52,26 @@ public class ShippingJpaServiceTest {
     }
 
     @Test
+    public void whenAddWithNullFieldsThenThrowException() {
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> shippingService.add(buildShipping(null))
+        );
+    }
+
+    @Test
+    public void whenAddDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Shipping shipping = buildShipping(value);
+        Shipping duplicateShipping = buildShipping(value);
+        shippingService.add(shipping);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> shippingService.add(duplicateShipping)
+        );
+    }
+
+    @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
         Shipping shipping = shippingService.add(buildShipping(value));
@@ -57,6 +79,34 @@ public class ShippingJpaServiceTest {
         Shipping updatedShipping = shippingService.update(shipping);
         assertThat(shipping).isEqualTo(updatedShipping);
         assertThat(shipping.getName()).isEqualTo(updatedShipping.getName());
+    }
+
+    @Test
+    public void whenUpdateWithNullValuesThenThrowException() {
+        Shipping shipping = shippingService.add(buildShipping());
+        shipping.setName(null);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    shippingService.update(shipping);
+                    shippingService.findAll();
+                }
+        );
+    }
+
+    @Test
+    public void whenUpdateDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Shipping shipping = shippingService.add(buildShipping(value));
+        Shipping duplicateShipping = shippingService.add(buildShipping(value + "_another"));
+        duplicateShipping.setName(shipping.getName());
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    shippingService.update(duplicateShipping);
+                    shippingService.findAll();
+                }
+        );
     }
 
     @Test
