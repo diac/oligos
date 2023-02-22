@@ -13,11 +13,8 @@ import java.util.Set;
 /**
  * Модель данных "Модификатор"
  */
-/*
 @Entity
 @Table(name = "modification")
-
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,10 +24,8 @@ public class Modification {
     /**
      * Идентификатор модификатора
      */
-    /*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    */
     @EqualsAndHashCode.Include
     private int id;
 
