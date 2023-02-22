@@ -31,5 +31,6 @@ public class Scale {
     /**
      * Отображаемое наименование
      */
+    @Column(name = "display_name")
     private String displayName;
 }
