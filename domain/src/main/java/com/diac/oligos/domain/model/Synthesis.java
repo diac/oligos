@@ -21,6 +21,8 @@ public class Synthesis {
     /**
      * Идентификатор синтеза
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
 
