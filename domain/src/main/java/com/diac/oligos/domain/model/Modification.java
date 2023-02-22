@@ -3,10 +3,7 @@ package com.diac.oligos.domain.model;
 import com.diac.oligos.domain.enumeration.ModificationCategory;
 import com.diac.oligos.domain.enumeration.ModificationType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -19,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 public class Modification {
 
     /**
