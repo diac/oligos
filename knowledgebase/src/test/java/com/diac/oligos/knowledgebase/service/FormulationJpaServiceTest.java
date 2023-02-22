@@ -7,9 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @ContextConfiguration(classes = {
@@ -59,6 +61,26 @@ public class FormulationJpaServiceTest {
     }
 
     @Test
+    public void whenAddWithNullFieldsThenThrowException() {
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> formulationService.add(buildFormulation(null))
+        );
+    }
+
+    @Test
+    public void whenAddDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Formulation formulation = buildFormulation(value);
+        Formulation duplicateFormulation = buildFormulation(value);
+        formulationService.add(formulation);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> formulationService.add(duplicateFormulation)
+        );
+    }
+
+    @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
         Formulation formulation = formulationService.add(buildFormulation(value));
@@ -68,6 +90,37 @@ public class FormulationJpaServiceTest {
         assertThat(formulation).isEqualTo(updatedFormulation);
         assertThat(formulation.getName()).isEqualTo(updatedFormulation.getName());
         assertThat(formulation.getSku()).isEqualTo(updatedFormulation.getSku());
+    }
+
+    @Test
+    public void whenUpdateWithNullValuesThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Formulation formulation = formulationService.add(buildFormulation(value));
+        formulation.setName(null);
+        formulation.setSku(null);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    formulationService.update(formulation);
+                    formulationService.findAll();
+                }
+        );
+    }
+
+    @Test
+    public void whenUpdateDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Formulation formulation = formulationService.add(buildFormulation(value));
+        Formulation duplicateFormulation = formulationService.add(buildFormulation(value + "_another"));
+        duplicateFormulation.setName(formulation.getName());
+        duplicateFormulation.setSku(formulation.getSku());
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    formulationService.update(duplicateFormulation);
+                    formulationService.findAll();
+                }
+        );
     }
 
     @Test
