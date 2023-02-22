@@ -7,11 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Random;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @ContextConfiguration(classes = {
@@ -54,6 +56,26 @@ public class ScaleJpaServiceTest {
     }
 
     @Test
+    public void whenAddWithNullFieldsThenThrowException() {
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> scaleService.add(buildScale(null, 0))
+        );
+    }
+
+    @Test
+    public void whenAddDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Scale scale = buildScale(value, 1000);
+        Scale duplicateScale = buildScale(value, 1000);
+        scaleService.add(scale);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> scaleService.add(duplicateScale)
+        );
+    }
+
+    @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
         int number = new Random().nextInt();
@@ -64,6 +86,35 @@ public class ScaleJpaServiceTest {
         assertThat(scale).isEqualTo(updatedScale);
         assertThat(scale.getDisplayName()).isEqualTo(updatedScale.getDisplayName());
         assertThat(scale.getNanomols()).isEqualTo(updatedScale.getNanomols());
+    }
+
+    @Test
+    public void whenUpdateWithNullValuesThenThrowException() {
+        Scale scale = scaleService.add(buildScale());
+        scale.setDisplayName(null);
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    scaleService.update(scale);
+                    scaleService.findAll();
+                }
+        );
+    }
+
+    @Test
+    public void whenUpdateDuplicateThenThrowException() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Scale scale = scaleService.add(buildScale(value, 1000));
+        Scale duplicateScale = scaleService.add(buildScale(value + "_another", 2000));
+        duplicateScale.setDisplayName(scale.getDisplayName());
+        duplicateScale.setNanomols(scale.getNanomols());
+        assertThrows(
+                DataIntegrityViolationException.class,
+                () -> {
+                    scaleService.update(duplicateScale);
+                    scaleService.findAll();
+                }
+        );
     }
 
     @Test
