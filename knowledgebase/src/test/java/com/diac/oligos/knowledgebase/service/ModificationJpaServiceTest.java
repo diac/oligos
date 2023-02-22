@@ -1,15 +1,22 @@
 package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Modification;
+import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.ModificationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ContextConfiguration;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJpaTest
+@ContextConfiguration(classes = {
+        DataConfig.class,
+        ModificationRepository.class,
+        ModificationJpaService.class
+})
 public class ModificationJpaServiceTest {
 
     @Autowired
