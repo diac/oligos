@@ -70,7 +70,7 @@ public class FormulationController {
      * @param formulation Новый тип препарата
      * @return Ответ с созданным типом препарата
      */
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Formulation> post(@RequestBody @Valid Formulation formulation) {
         return new ResponseEntity<>(
                 formulationService.add(formulation),
@@ -84,7 +84,7 @@ public class FormulationController {
      * @param formulation Объект с новыми данными типа препарата
      * @return Ответ с обновленным типом препарата
      */
-    @PutMapping("/")
+    @PutMapping("")
     public ResponseEntity<Formulation> put(@RequestBody @Valid Formulation formulation) {
         return new ResponseEntity<>(
                 formulationService.update(formulation),
