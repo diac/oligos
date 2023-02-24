@@ -26,6 +26,14 @@ public interface SynthesisService {
     Optional<Synthesis> findById(int id);
 
     /**
+     * Найти синтез по артикулу
+     *
+     * @param sku Артикул
+     * @return Optional с найденным синтезом. Пустой Optional, если ничего не найдено
+     */
+    Optional<Synthesis> findBySku(String sku);
+
+    /**
      * Добавить новый синтез в систему
      *
      * @param synthesis Новый синтез

@@ -46,6 +46,14 @@ public class SynthesisJpaServiceTest {
     }
 
     @Test
+    public void whenFindBySku() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Synthesis synthesis = synthesisService.add(buildSynthesis(value, BaseType.DNA));
+        Synthesis synthesisInDb = synthesisService.findBySku(value).orElse(new Synthesis());
+        assertThat(synthesis).isEqualTo(synthesisInDb);
+    }
+
+    @Test
     public void whenAdd() {
         String value = String.valueOf(System.currentTimeMillis());
         Synthesis synthesis = synthesisService.add(buildSynthesis(value, BaseType.DNA));

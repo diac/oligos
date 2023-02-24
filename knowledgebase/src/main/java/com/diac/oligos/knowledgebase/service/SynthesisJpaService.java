@@ -42,6 +42,17 @@ public class SynthesisJpaService implements SynthesisService {
     }
 
     /**
+     * Найти синтез по артикулу
+     *
+     * @param sku Артикул
+     * @return Optional с найденным синтезом. Пустой Optional, если ничего не найдено
+     */
+    @Override
+    public Optional<Synthesis> findBySku(String sku) {
+        return synthesisRepository.findBySku(sku);
+    }
+
+    /**
      * Добавить новый синтез в систему
      *
      * @param synthesis Новый синтез
