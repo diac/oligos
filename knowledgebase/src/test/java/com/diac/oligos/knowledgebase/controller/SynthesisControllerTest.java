@@ -58,6 +58,31 @@ public class SynthesisControllerTest {
     }
 
     @Test
+    public void whenFindBySkuFound() throws Exception {
+        String sku = "qwerty";
+        Mockito.when(synthesisService.findBySku(sku))
+                .thenReturn(
+                        Optional.of(Synthesis.builder()
+                                .id(1)
+                                .sku(sku)
+                                .build())
+                );
+        String requestUrl = String.format("%s/find_by_sku/%s", URL_BASE, sku);
+        mockMvc.perform(get(requestUrl))
+                .andExpect(status().isFound());
+    }
+
+    @Test
+    public void whenFindByNotSkuFound() throws Exception {
+        String sku = "qwerty";
+        Mockito.when(synthesisService.findBySku(sku))
+                .thenReturn(Optional.empty());
+        String requestUrl = String.format("%s/find_by_sku/%s", URL_BASE, sku);
+        mockMvc.perform(get(requestUrl))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void whenPost() throws Exception {
         int id = 1;
         String value = String.valueOf(System.currentTimeMillis());

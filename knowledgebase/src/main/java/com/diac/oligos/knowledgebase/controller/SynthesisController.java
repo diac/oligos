@@ -51,6 +51,20 @@ public class SynthesisController {
     }
 
     /**
+     * Получить синтез по артикулу
+     *
+     * @param sku Артикул
+     * @return Ответ с синтезом и статусом Found. Пустой ответ со статусом Not Found, если ничего не найдено
+     */
+    @GetMapping("/find_by_sku/{sku}")
+    public ResponseEntity<Synthesis> getBySku(@PathVariable("sku") String sku) {
+        return synthesisService.findBySku(sku).map(synthesis -> new ResponseEntity<>(
+                synthesis,
+                HttpStatus.FOUND
+        )).orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
      * Добавить новый синтез
      *
      * @param synthesis Новый синтез
