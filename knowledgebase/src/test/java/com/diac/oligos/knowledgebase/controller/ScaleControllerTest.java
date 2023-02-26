@@ -83,6 +83,46 @@ public class ScaleControllerTest {
     }
 
     @Test
+    public void whenPostWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+            Scale scale = Scale.builder()
+                    .displayName(null)
+                    .build();
+        String requestBody = objectWriter.writeValueAsString(scale);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Scale scale = Scale.builder()
+                .displayName("")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(scale);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithZeroNanomolsThenResponseStatusIsBadRequest() throws Exception {
+        Scale scale = Scale.builder()
+                .nanomols(0)
+                .displayName("ZERO")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(scale);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenPut() throws Exception {
         int id = 1;
         int nanomols = 1000;
@@ -100,6 +140,49 @@ public class ScaleControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(content().json(jsonValue));
+    }
+
+    @Test
+    public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Scale scale = Scale.builder()
+                .id(1)
+                .displayName(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(scale);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Scale scale = Scale.builder()
+                .id(1)
+                .displayName("")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(scale);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPutWithZeroNanomolsThenResponseStatusIsBadRequest() throws Exception {
+        Scale scale = Scale.builder()
+                .id(1)
+                .nanomols(0)
+                .displayName("ZERO")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(scale);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
