@@ -108,6 +108,36 @@ public class FormulationControllerTest {
     }
 
     @Test
+    public void whenPostWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Formulation formulation = Formulation.builder()
+                .name(null)
+                .sku(null)
+                .available(true)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(formulation);
+        mockMvc.perform(
+                post("/formulation")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Formulation formulation = Formulation.builder()
+                .name("")
+                .sku("")
+                .available(true)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(formulation);
+        mockMvc.perform(
+                post("/formulation")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenPut() throws Exception {
         int id = 1;
         String value = String.valueOf(System.currentTimeMillis());
