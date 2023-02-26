@@ -3,6 +3,7 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Scale;
 import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.ScaleRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ScaleJpaServiceTest {
     @Test
     public void whenAdd() {
         String value = String.valueOf(System.currentTimeMillis());
-        int number = new Random().nextInt();
+        int number = new Random().nextInt()  & Integer.MAX_VALUE;
         Scale scale = scaleService.add(buildScale(value, number));
         assertThat(value).isEqualTo(scale.getDisplayName());
         assertThat(number).isEqualTo(scale.getNanomols());
@@ -58,7 +59,7 @@ public class ScaleJpaServiceTest {
     @Test
     public void whenAddWithNullFieldsThenThrowException() {
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> scaleService.add(buildScale(null, 0))
         );
     }
@@ -78,7 +79,7 @@ public class ScaleJpaServiceTest {
     @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
-        int number = new Random().nextInt();
+        int number = new Random().nextInt()  & Integer.MAX_VALUE;
         Scale scale = scaleService.add(buildScale(value, number));
         scale.setDisplayName(scale.getDisplayName() + "_updated");
         scale.setNanomols(scale.getNanomols() + 1000);
@@ -93,7 +94,7 @@ public class ScaleJpaServiceTest {
         Scale scale = scaleService.add(buildScale());
         scale.setDisplayName(null);
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> {
                     scaleService.update(scale);
                     scaleService.findAll();
@@ -134,7 +135,7 @@ public class ScaleJpaServiceTest {
     private Scale buildScale() {
         return buildScale(
                 String.valueOf(System.currentTimeMillis()),
-                new Random().nextInt()
+                new Random().nextInt()  & Integer.MAX_VALUE
         );
     }
 }
