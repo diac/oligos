@@ -3,6 +3,7 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Purification;
 import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.PurificationRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class PurificationJpaServiceTest {
     @Test
     public void whenAddWithNullFieldsThenThrowException() {
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> purificationService.add(buildPurification(null))
         );
     }
@@ -98,7 +99,7 @@ public class PurificationJpaServiceTest {
         purification.setName(null);
         purification.setSku(null);
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> {
                     purificationService.update(purification);
                     purificationService.findAll();
