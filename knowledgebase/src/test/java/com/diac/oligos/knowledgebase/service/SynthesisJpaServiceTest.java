@@ -4,6 +4,7 @@ import com.diac.oligos.domain.enumeration.BaseType;
 import com.diac.oligos.domain.model.Synthesis;
 import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.SynthesisRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class SynthesisJpaServiceTest {
     @Test
     public void whenAddWithNullFieldsThenThrowException() {
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> synthesisService.add(buildSynthesis(null, null))
         );
     }
@@ -103,7 +104,7 @@ public class SynthesisJpaServiceTest {
         synthesis.setSku(null);
         synthesis.setBaseType(null);
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> {
                     synthesisService.update(synthesis);
                     synthesisService.findAll();
