@@ -80,6 +80,32 @@ public class ShippingControllerTest {
     }
 
     @Test
+    public void whenPostWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Shipping shipping = Shipping.builder()
+                .name(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(shipping);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Shipping shipping = Shipping.builder()
+                .name("")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(shipping);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenPut() throws Exception {
         int id = 1;
         String value = String.valueOf(System.currentTimeMillis());
@@ -95,6 +121,34 @@ public class ShippingControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(content().json(jsonValue));
+    }
+
+    @Test
+    public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Shipping shipping = Shipping.builder()
+                .id(1)
+                .name(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(shipping);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Shipping shipping = Shipping.builder()
+                .id(1)
+                .name(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(shipping);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
