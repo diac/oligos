@@ -158,6 +158,36 @@ public class FormulationControllerTest {
     }
 
     @Test
+    public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Formulation formulation = Formulation.builder()
+                .name(null)
+                .sku(null)
+                .available(true)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(formulation);
+        mockMvc.perform(
+                put("/formulation")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Formulation formulation = Formulation.builder()
+                .name("")
+                .sku("")
+                .available(true)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(formulation);
+        mockMvc.perform(
+                put("/formulation")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenDelete() throws Exception {
         int id = 1;
         String requestUrl = String.format("/formulation/%d", id);
