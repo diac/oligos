@@ -3,6 +3,7 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Shipping;
 import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.ShippingRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class ShippingJpaServiceTest {
     @Test
     public void whenAddWithNullFieldsThenThrowException() {
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> shippingService.add(buildShipping(null))
         );
     }
@@ -86,7 +87,7 @@ public class ShippingJpaServiceTest {
         Shipping shipping = shippingService.add(buildShipping());
         shipping.setName(null);
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> {
                     shippingService.update(shipping);
                     shippingService.findAll();
