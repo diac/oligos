@@ -105,6 +105,34 @@ public class PurificationControllerTest {
     }
 
     @Test
+    public void whenPostWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Purification purification = Purification.builder()
+                .name(null)
+                .sku(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(purification);
+        mockMvc.perform(
+                post("/purification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Purification purification = Purification.builder()
+                .name("")
+                .sku("")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(purification);
+        mockMvc.perform(
+                post("/purification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenPut() throws Exception {
         int id = 1;
         String value = String.valueOf(System.currentTimeMillis());
@@ -121,6 +149,36 @@ public class PurificationControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(content().json(jsonValue));
+    }
+
+    @Test
+    public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Purification purification = Purification.builder()
+                .id(1)
+                .name(null)
+                .sku(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(purification);
+        mockMvc.perform(
+                put("/purification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Purification purification = Purification.builder()
+                .id(1)
+                .name(null)
+                .sku(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(purification);
+        mockMvc.perform(
+                put("/purification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
