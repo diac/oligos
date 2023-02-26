@@ -2,6 +2,8 @@ package com.diac.oligos.domain.model;
 
 import com.diac.oligos.domain.enumeration.BaseType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 /**
@@ -27,6 +29,8 @@ public class Synthesis {
     /**
      * Наименование синтеза
      */
+    @NotNull(message = "Synthesis name is required")
+    @NotBlank(message = "Synthesis name cannot be blank")
     private String name;
 
     /**
@@ -34,10 +38,13 @@ public class Synthesis {
      */
     @Column(name = "base_type")
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Base type is required for Synthesis")
     private BaseType baseType;
 
     /**
      * Артикул синтеза
      */
+    @NotNull(message = "Synthesis SKU is required")
+    @NotBlank(message = "Synthesis SKU cannot be blank")
     private String sku;
 }
