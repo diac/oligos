@@ -3,6 +3,8 @@ package com.diac.oligos.domain.model;
 import com.diac.oligos.domain.enumeration.ModificationCategory;
 import com.diac.oligos.domain.enumeration.ModificationType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -30,11 +32,15 @@ public class Modification {
     /**
      * Имя модификатора
      */
+    @NotNull(message = "Modification name is required")
+    @NotBlank(message = "Modification name cannot be blank")
     private String name;
 
     /**
      * Код модификатора
      */
+    @NotNull(message = "Modification code is required")
+    @NotBlank(message = "Modification code cannot be blank")
     private String code;
 
     /**
@@ -75,5 +81,7 @@ public class Modification {
     /**
      * Артикул модификатора
      */
+    @NotNull(message = "Modification SKU is required")
+    @NotBlank(message = "Modification SKU cannot be blank")
     private String sku;
 }
