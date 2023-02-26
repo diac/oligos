@@ -3,6 +3,7 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Modification;
 import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.ModificationRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class ModificationJpaServiceTest {
     @Test
     public void whenAddWithNullFieldsThenThrowException() {
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> modificationService.add(buildModification(null))
         );
     }
@@ -102,7 +103,7 @@ public class ModificationJpaServiceTest {
         modification.setName(null);
         modification.setSku(null);
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> {
                     modificationService.update(modification);
                     modificationService.findAll();
