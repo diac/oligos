@@ -3,6 +3,7 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Formulation;
 import com.diac.oligos.knowledgebase.config.DataConfig;
 import com.diac.oligos.knowledgebase.repository.FormulationRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class FormulationJpaServiceTest {
     @Test
     public void whenAddWithNullFieldsThenThrowException() {
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> formulationService.add(buildFormulation(null))
         );
     }
@@ -99,7 +100,7 @@ public class FormulationJpaServiceTest {
         formulation.setName(null);
         formulation.setSku(null);
         assertThrows(
-                DataIntegrityViolationException.class,
+                ConstraintViolationException.class,
                 () -> {
                     formulationService.update(formulation);
                     formulationService.findAll();
