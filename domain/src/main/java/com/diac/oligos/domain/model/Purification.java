@@ -1,6 +1,7 @@
 package com.diac.oligos.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 /**
@@ -26,10 +27,14 @@ public class Purification {
     /**
      * Наименование типа очистки
      */
+    @NotNull(message = "Purification name is required")
+    @NotNull(message = "Purification name cannot be blank")
     private String name;
 
     /**
      * Артикул типа очистки
      */
+    @NotNull(message = "Purification SKU is required")
+    @NotNull(message = "Purification SKU cannot be blank")
     private String sku;
 }
