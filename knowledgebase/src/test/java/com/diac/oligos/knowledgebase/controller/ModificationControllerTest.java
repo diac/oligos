@@ -108,6 +108,36 @@ public class ModificationControllerTest {
     }
 
     @Test
+    public void whenPostWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Modification modification = Modification.builder()
+                .name(null)
+                .code(null)
+                .sku(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(modification);
+        mockMvc.perform(
+                post("/modification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Modification modification = Modification.builder()
+                .name("")
+                .code("")
+                .sku("")
+                .build();
+        String requestBody = objectWriter.writeValueAsString(modification);
+        mockMvc.perform(
+                post("/modification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenPut() throws Exception {
         int id = 1;
         String value = String.valueOf(System.currentTimeMillis());
@@ -125,6 +155,38 @@ public class ModificationControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(content().json(jsonValue));
+    }
+
+    @Test
+    public void whenPutWithNullValuesThenStatusIsBadRequest() throws Exception {
+        Modification modification = Modification.builder()
+                .id(1)
+                .name(null)
+                .code(null)
+                .sku(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(modification);
+        mockMvc.perform(
+                put("/modification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPutWithBkankValuesThenStatusIsBadRequest() throws Exception {
+        Modification modification = Modification.builder()
+                .id(1)
+                .name(null)
+                .code(null)
+                .sku(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(modification);
+        mockMvc.perform(
+                put("/modification")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
