@@ -1,6 +1,8 @@
 package com.diac.oligos.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -28,6 +30,8 @@ public class Shipping {
     /**
      * Наименование типа доставки
      */
+    @NotNull(message = "Shipping name is required")
+    @NotBlank(message = "Shipping name cannot be blank")
     private String name;
 
     /**
