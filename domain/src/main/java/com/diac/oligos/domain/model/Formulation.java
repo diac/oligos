@@ -1,6 +1,8 @@
 package com.diac.oligos.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 /**
@@ -26,6 +28,8 @@ public class Formulation {
     /**
      * Наименование типа препарата
      */
+    @NotNull(message = "Formulation name is required")
+    @NotBlank(message = "Formulation name cannot be blank")
     private String name;
 
     /**
@@ -36,5 +40,7 @@ public class Formulation {
     /**
      * Артикул типа препарата
      */
+    @NotNull(message = "Formulation SKU is required")
+    @NotBlank(message = "Formulation SKU cannot be blank")
     private String sku;
 }
