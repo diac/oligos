@@ -1,5 +1,6 @@
 package com.diac.oligos.knowledgebase.controller;
 
+import com.diac.oligos.domain.enumeration.BaseType;
 import com.diac.oligos.domain.model.Synthesis;
 import com.diac.oligos.knowledgebase.service.SynthesisService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -89,6 +90,7 @@ public class SynthesisControllerTest {
         Synthesis newSynthesis = Synthesis.builder()
                 .name(value)
                 .sku(value)
+                .baseType(BaseType.DNA)
                 .build();
         Synthesis savedSynthesis = Synthesis.builder()
                 .id(id)
@@ -107,6 +109,36 @@ public class SynthesisControllerTest {
     }
 
     @Test
+    public void whenPostWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Synthesis synthesis = Synthesis.builder()
+                .name(null)
+                .sku(null)
+                .baseType(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(synthesis);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Synthesis synthesis = Synthesis.builder()
+                .name("")
+                .sku("")
+                .baseType(BaseType.DNA)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(synthesis);
+        mockMvc.perform(
+                post(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void whenPut() throws Exception {
         int id = 1;
         String value = String.valueOf(System.currentTimeMillis());
@@ -114,6 +146,7 @@ public class SynthesisControllerTest {
                 .id(id)
                 .name(value)
                 .sku(value)
+                .baseType(BaseType.DNA)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(synthesis);
         Mockito.when(synthesisService.update(synthesis)).thenReturn(synthesis);
@@ -123,6 +156,37 @@ public class SynthesisControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(content().json(jsonValue));
+    }
+
+    @Test
+    public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        Synthesis synthesis = Synthesis.builder()
+                .id(1)
+                .name(null)
+                .sku(null)
+                .baseType(null)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(synthesis);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
+    }
+    @Test
+    public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        Synthesis synthesis = Synthesis.builder()
+                .id(1)
+                .name("")
+                .sku("")
+                .baseType(BaseType.DNA)
+                .build();
+        String requestBody = objectWriter.writeValueAsString(synthesis);
+        mockMvc.perform(
+                put(URL_BASE)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
