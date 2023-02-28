@@ -44,10 +44,11 @@ public interface PurificationService {
     /**
      * Обновить данные типа очистки в системе
      *
-     * @param purification Тип очистки, данные которого необходимо обновить
+     * @param id Идентификатор типа очистки, данные которого необходимо обновить
+     * @param purification Объект с обновленными данными типа очистки
      * @return Обновленный тип очистки
      */
-    Purification update(Purification purification);
+    Purification update(int id, Purification purification);
 
     /**
      * Удалить тип очистки из системы

@@ -142,9 +142,9 @@ public class PurificationControllerTest {
                 .sku(value)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(purification);
-        Mockito.when(purificationService.update(purification)).thenReturn(purification);
+        Mockito.when(purificationService.update(id, purification)).thenReturn(purification);
         mockMvc.perform(
-                        put("/purification")
+                        put("/purification/1")
                                 .content(jsonValue)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -160,7 +160,7 @@ public class PurificationControllerTest {
                 .build();
         String requestBody = objectWriter.writeValueAsString(purification);
         mockMvc.perform(
-                put("/purification")
+                put("/purification/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
@@ -175,7 +175,7 @@ public class PurificationControllerTest {
                 .build();
         String requestBody = objectWriter.writeValueAsString(purification);
         mockMvc.perform(
-                put("/purification")
+                put("/purification/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());

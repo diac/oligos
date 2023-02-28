@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Purification;
 import com.diac.oligos.knowledgebase.repository.PurificationRepository;
+import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,12 +67,21 @@ public class PurificationJpaService implements PurificationService {
     /**
      * Обновить данные типа очистки в системе
      *
-     * @param purification Тип очистки, данные которого необходимо обновить
+     * @param id           Идентификатор типа очистки, данные которого необходимо обновить
+     * @param purification Объект с обновленными данными типа очистки
      * @return Обновленный тип очистки
+     * @throws NoResultException При попытке обновить несуществующий тип очистки
      */
     @Override
-    public Purification update(Purification purification) {
-        return purificationRepository.save(purification);
+    public Purification update(int id, Purification purification) {
+        return purificationRepository.findById(id)
+                .map(
+                        purificationInDb -> {
+                            purification.setId(id);
+                            return purificationRepository.save(purification);
+                        }
+                ).orElseThrow(NoResultException::new);
+
     }
 
     /**

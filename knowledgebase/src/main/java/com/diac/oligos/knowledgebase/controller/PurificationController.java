@@ -81,13 +81,14 @@ public class PurificationController {
     /**
      * Обновить данные типа очистки
      *
+     * @param id           Идентификатор типа очистки
      * @param purification Объект с новыми данными типа очистки
      * @return Ответ с обновленным типом очистки
      */
-    @PutMapping("")
-    public ResponseEntity<Purification> put(@RequestBody @Valid Purification purification) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Purification> put(@PathVariable("id") int id, @RequestBody @Valid Purification purification) {
         return new ResponseEntity<>(
-                purificationService.update(purification),
+                purificationService.update(id, purification),
                 HttpStatus.OK
         );
     }
