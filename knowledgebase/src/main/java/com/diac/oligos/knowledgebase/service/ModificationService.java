@@ -3,7 +3,6 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Modification;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Modification
@@ -21,17 +20,17 @@ public interface ModificationService {
      * Найти модификатор по ID
      *
      * @param id Идентификатор модификатора
-     * @return Optional с найденным модификатором. Пустой Optional, если ничего не найдено
+     * @return Модификатор
      */
-    Optional<Modification> findById(int id);
+    Modification findById(int id);
 
     /**
      * Найти модификатор по артикулу
      *
      * @param sku Артикул модификатора
-     * @return Optional с найденным модификатором. Пустой Optional, если ничего не найдено
+     * @return Модификатор
      */
-    Optional<Modification> findBySku(String sku);
+    Modification findBySku(String sku);
 
     /**
      * Добавить новый модификатор в систему

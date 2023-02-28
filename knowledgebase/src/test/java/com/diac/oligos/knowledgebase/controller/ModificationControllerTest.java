@@ -4,6 +4,7 @@ import com.diac.oligos.domain.model.Modification;
 import com.diac.oligos.knowledgebase.service.ModificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -41,7 +40,7 @@ public class ModificationControllerTest {
     @Test
     public void whenGetFound() throws Exception {
         int id = 1;
-        Mockito.when(modificationService.findById(id)).thenReturn(Optional.of(Modification.builder().id(id).build()));
+        Mockito.when(modificationService.findById(id)).thenReturn(Modification.builder().id(id).build());
         String requestUrl = String.format("/modification/%d", id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isFound());
@@ -50,7 +49,7 @@ public class ModificationControllerTest {
     @Test
     public void whenGetNotFound() throws Exception {
         int id = 1;
-        Mockito.when(modificationService.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(modificationService.findById(id)).thenThrow(NoResultException.class);
         String requestUrl = String.format("/modification/%d", id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());
@@ -61,10 +60,10 @@ public class ModificationControllerTest {
         String sku = "qwerty";
         Mockito.when(modificationService.findBySku(sku))
                 .thenReturn(
-                        Optional.of(Modification.builder()
+                        Modification.builder()
                                 .id(1)
                                 .sku(sku)
-                                .build())
+                                .build()
                 );
         String requestUrl = String.format("/modification/find_by_sku/%s", sku);
         mockMvc.perform(get(requestUrl))
@@ -75,7 +74,7 @@ public class ModificationControllerTest {
     @Test
     public void whenFindBySkuNotFound() throws Exception {
         String sku = "qwerty";
-        Mockito.when(modificationService.findBySku(sku)).thenReturn(Optional.empty());
+        Mockito.when(modificationService.findBySku(sku)).thenThrow(NoResultException.class);
         String requestUrl = String.format("/modification/find_by_sku/%s", sku);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());

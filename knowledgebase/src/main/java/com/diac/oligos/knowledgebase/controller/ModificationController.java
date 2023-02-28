@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.controller;
 
 import com.diac.oligos.domain.model.Modification;
 import com.diac.oligos.knowledgebase.service.ModificationService;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,14 @@ public class ModificationController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Modification> getById(@PathVariable("id") int id) {
-        return modificationService.findById(id).map(modification -> new ResponseEntity<>(
-                modification,
-                HttpStatus.FOUND
-        )).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            return new ResponseEntity<>(
+                    modificationService.findById(id),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
@@ -58,10 +63,14 @@ public class ModificationController {
      */
     @GetMapping("/find_by_sku/{sku}")
     public ResponseEntity<Modification> getBySku(@PathVariable("sku") String sku) {
-        return modificationService.findBySku(sku).map(modification -> new ResponseEntity<>(
-                modification,
-                HttpStatus.FOUND
-        )).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            return new ResponseEntity<>(
+                    modificationService.findBySku(sku),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**

@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Modification через JPA
@@ -35,22 +34,24 @@ public class ModificationJpaService implements ModificationService {
      * Найти модификатор по ID
      *
      * @param id Идентификатор модификатора
-     * @return Optional с найденным модификатором. Пустой Optional, если ничего не найдено
+     * @return Модификатор
      */
     @Override
-    public Optional<Modification> findById(int id) {
-        return modificationRepository.findById(id);
+    public Modification findById(int id) {
+        return modificationRepository.findById(id)
+                .orElseThrow(NoResultException::new);
     }
 
     /**
      * Найти модификатор по артикулу
      *
      * @param sku Артикул модификатора
-     * @return Optional с найденным модификатором. Пустой Optional, если ничего не найдено
+     * @return Модификатор
      */
     @Override
-    public Optional<Modification> findBySku(String sku) {
-        return modificationRepository.findBySku(sku);
+    public Modification findBySku(String sku) {
+        return modificationRepository.findBySku(sku)
+                .orElseThrow(NoResultException::new);
     }
 
     /**
