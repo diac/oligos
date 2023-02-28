@@ -73,10 +73,17 @@ public class ShippingJpaService implements ShippingService {
     /**
      * Удалить тип доставки из системы
      *
-     * @param shipping Тип доставки, который необходимо удалить
+     * @param id Идентификатор типа доставки, который необходимо удалить
+     * @throws NoResultException При попытке обновить несуществующий тип доставки
      */
     @Override
-    public void delete(Shipping shipping) {
-        shippingRepository.delete(shipping);
+    public void delete(int id) {
+        shippingRepository.findById(id)
+                .ifPresentOrElse(
+                        shipping -> shippingRepository.deleteById(id),
+                        () -> {
+                            throw new NoResultException();
+                        }
+                );
     }
 }

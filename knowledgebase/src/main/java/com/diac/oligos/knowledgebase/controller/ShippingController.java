@@ -87,11 +87,7 @@ public class ShippingController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
-        shippingService.delete(
-                Shipping.builder()
-                        .id(id)
-                        .build()
-        );
+        shippingService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

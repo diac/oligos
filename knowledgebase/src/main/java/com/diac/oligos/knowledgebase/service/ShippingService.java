@@ -45,7 +45,7 @@ public interface ShippingService {
     /**
      * Удалить тип доставки из системы
      *
-     * @param shipping Тип доставки, который необходимо удалить
+     * @param id Идентификатор типа доставки, который необходимо удалить
      */
-    void delete(Shipping shipping);
+    void delete(int id);
 }
