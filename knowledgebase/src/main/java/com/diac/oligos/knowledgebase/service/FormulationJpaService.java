@@ -39,7 +39,6 @@ public class FormulationJpaService implements FormulationService {
      */
     @Override
     public Formulation findById(int id) {
-
         return formulationRepository.findById(id)
                 .orElseThrow(NoResultException::new);
     }
