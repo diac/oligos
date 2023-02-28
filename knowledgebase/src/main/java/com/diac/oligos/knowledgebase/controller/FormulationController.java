@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.controller;
 
 import com.diac.oligos.domain.model.Formulation;
 import com.diac.oligos.knowledgebase.service.FormulationService;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,14 @@ public class FormulationController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Formulation> getById(@PathVariable("id") int id) {
-        return formulationService.findById(id).map(formulation -> new ResponseEntity<>(
-                formulation,
-                HttpStatus.FOUND
-        )).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            return new ResponseEntity<>(
+                    formulationService.findById(id),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
@@ -58,10 +63,14 @@ public class FormulationController {
      */
     @GetMapping("/find_by_sku/{sku}")
     public ResponseEntity<Formulation> getBySku(@PathVariable("sku") String sku) {
-        return formulationService.findBySku(sku).map(formulation -> new ResponseEntity<>(
-                formulation,
-                HttpStatus.FOUND
-        )).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            return new ResponseEntity<>(
+                    formulationService.findBySku(sku),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**

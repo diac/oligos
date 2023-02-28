@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Formulation через JPA
@@ -35,22 +34,25 @@ public class FormulationJpaService implements FormulationService {
      * Найти тип препарата по ID
      *
      * @param id Идентификатор типа препарата
-     * @return Optional с найденным типом препарата. Пустой Optional, если ничего не найдено
+     * @return Тип препарата
      */
     @Override
-    public Optional<Formulation> findById(int id) {
-        return formulationRepository.findById(id);
+    public Formulation findById(int id) {
+
+        return formulationRepository.findById(id)
+                .orElseThrow(NoResultException::new);
     }
 
     /**
      * Найти тип препарата по артикулу
      *
      * @param sku Артикул
-     * @return Optional с найденным типом препарата. Пустой Optional, если ничего не найдено
+     * @return Тип препарата
      */
     @Override
-    public Optional<Formulation> findBySku(String sku) {
-        return formulationRepository.findBySku(sku);
+    public Formulation findBySku(String sku) {
+        return formulationRepository.findBySku(sku)
+                .orElseThrow(NoResultException::new);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.diac.oligos.domain.model.Formulation;
 import com.diac.oligos.knowledgebase.service.FormulationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -41,7 +40,7 @@ public class FormulationControllerTest {
     @Test
     public void whenGetFound() throws Exception {
         int id = 1;
-        Mockito.when(formulationService.findById(id)).thenReturn(Optional.of(Formulation.builder().id(id).build()));
+        Mockito.when(formulationService.findById(id)).thenReturn(Formulation.builder().id(id).build());
         String requestUrl = String.format("/formulation/%d", id);
         mockMvc.perform(
                 get(requestUrl)
@@ -51,7 +50,7 @@ public class FormulationControllerTest {
     @Test
     public void whenGetNotFound() throws Exception {
         int id = 1;
-        Mockito.when(formulationService.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(formulationService.findById(id)).thenThrow(NoResultException.class);
         String requestUrl = String.format("/formulation/%d", id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());
@@ -62,10 +61,10 @@ public class FormulationControllerTest {
         String sku = "qwerty";
         Mockito.when(formulationService.findBySku(sku))
                 .thenReturn(
-                        Optional.of(Formulation.builder()
+                        Formulation.builder()
                                 .id(1)
                                 .sku(sku)
-                                .build())
+                                .build()
                 );
         String requestUrl = String.format("/formulation/find_by_sku/%s", sku);
         mockMvc.perform(get(requestUrl))
@@ -75,7 +74,7 @@ public class FormulationControllerTest {
     @Test
     public void whenFindBySkuNotFound() throws Exception {
         String sku = "qwerty";
-        Mockito.when(formulationService.findBySku(sku)).thenReturn(Optional.empty());
+        Mockito.when(formulationService.findBySku(sku)).thenThrow(NoResultException.class);
         String requestUrl = String.format("/formulation/find_by_sku/%s", sku);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());

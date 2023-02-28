@@ -3,7 +3,6 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Formulation;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Formulation
@@ -21,17 +20,17 @@ public interface FormulationService {
      * Найти тип препарата по ID
      *
      * @param id Идентификатор типа препарата
-     * @return Optional с найденным типом препарата. Пустой Optional, если ничего не найдено
+     * @return Тип препарата
      */
-    Optional<Formulation> findById(int id);
+    Formulation findById(int id);
 
     /**
      * Найти тип препарата по артикулу
      *
      * @param sku Артикул
-     * @return Optional с найденным типом препарата. Пустой Optional, если ничего не найдено
+     * @return Тип препарата
      */
-    Optional<Formulation> findBySku(String sku);
+    Formulation findBySku(String sku);
 
     /**
      * Добавить новый тип препарата в систему
@@ -44,7 +43,7 @@ public interface FormulationService {
     /**
      * Обновить данные типа препарата в системе
      *
-     * @param id Идентификатор препарата, данные которого необходимо обновить
+     * @param id          Идентификатор препарата, данные которого необходимо обновить
      * @param formulation Объект с обновленными данными препарата
      * @return Обновленный тип препарата
      */
