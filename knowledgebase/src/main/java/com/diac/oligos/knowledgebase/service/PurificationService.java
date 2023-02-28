@@ -53,7 +53,7 @@ public interface PurificationService {
     /**
      * Удалить тип очистки из системы
      *
-     * @param purification Тип очистки, который необходимо удалить
+     * @param id Идентификатор типа очистки, который необходимо удалить
      */
-    void delete(Purification purification);
+    void delete(int id);
 }

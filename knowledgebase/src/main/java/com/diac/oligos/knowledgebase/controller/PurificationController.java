@@ -101,11 +101,7 @@ public class PurificationController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
-        purificationService.delete(
-                Purification.builder()
-                        .id(id)
-                        .build()
-        );
+        purificationService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

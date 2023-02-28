@@ -87,10 +87,17 @@ public class PurificationJpaService implements PurificationService {
     /**
      * Удалить тип очистки из системы
      *
-     * @param purification Тип очистки, который необходимо удалить
+     * @param id Идентификатор типа очистки, который необходимо удалить
+     * @throws NoResultException При попытке обновить несуществующий тип очистки
      */
     @Override
-    public void delete(Purification purification) {
-        purificationRepository.delete(purification);
+    public void delete(int id) {
+        purificationRepository.findById(id)
+                .ifPresentOrElse(
+                        purification -> purificationRepository.deleteById(id),
+                        () -> {
+                            throw new NoResultException();
+                        }
+                );
     }
 }
