@@ -35,6 +35,7 @@ public class FormulationJpaService implements FormulationService {
      *
      * @param id Идентификатор типа препарата
      * @return Тип препарата
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
     public Formulation findById(int id) {
@@ -48,6 +49,7 @@ public class FormulationJpaService implements FormulationService {
      *
      * @param sku Артикул
      * @return Тип препарата
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
     public Formulation findBySku(String sku) {
