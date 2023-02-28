@@ -35,6 +35,7 @@ public class ModificationJpaService implements ModificationService {
      *
      * @param id Идентификатор модификатора
      * @return Модификатор
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
     public Modification findById(int id) {
@@ -47,6 +48,7 @@ public class ModificationJpaService implements ModificationService {
      *
      * @param sku Артикул модификатора
      * @return Модификатор
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
     public Modification findBySku(String sku) {
