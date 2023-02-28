@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.controller;
 
 import com.diac.oligos.domain.model.Scale;
 import com.diac.oligos.knowledgebase.service.ScaleService;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,14 @@ public class ScaleController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Scale> getById(@PathVariable("id") int id) {
-        return scaleService.findById(id).map(scale -> new ResponseEntity<>(
-                scale,
-                HttpStatus.FOUND
-        )).orElse(ResponseEntity.notFound().build());
+        try {
+            return new ResponseEntity<>(
+                    scaleService.findById(id),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**

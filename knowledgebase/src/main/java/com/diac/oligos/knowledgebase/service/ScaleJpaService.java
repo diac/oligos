@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Scale через JPA
@@ -35,11 +34,13 @@ public class ScaleJpaService implements ScaleService {
      * Найти масштаб по ID
      *
      * @param id Идентификатор масштаба
-     * @return Optional с найденным масштабом. Пустой Optional, если ничего не найдено
+     * @return Масштаб
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
-    public Optional<Scale> findById(int id) {
-        return scaleRepository.findById(id);
+    public Scale findById(int id) {
+        return scaleRepository.findById(id)
+                .orElseThrow(NoResultException::new);
     }
 
     /**

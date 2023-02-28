@@ -3,7 +3,6 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Scale;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Scale
@@ -21,9 +20,9 @@ public interface ScaleService {
      * Найти масштаб по ID
      *
      * @param id Идентификатор масштаба
-     * @return Optional с найденным масштабом. Пустой Optional, если ничего не найдено
+     * @return Масштаб
      */
-    Optional<Scale> findById(int id);
+    Scale findById(int id);
 
     /**
      * Добавить новый масштаб в систему

@@ -4,6 +4,7 @@ import com.diac.oligos.domain.model.Scale;
 import com.diac.oligos.knowledgebase.service.ScaleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,7 +41,7 @@ public class ScaleControllerTest {
     @Test
     public void whenGetFound() throws Exception {
         int id = 1;
-        Mockito.when(scaleService.findById(id)).thenReturn(Optional.of(Scale.builder().id(id).build()));
+        Mockito.when(scaleService.findById(id)).thenReturn(Scale.builder().id(id).build());
         String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isFound());
@@ -51,7 +50,7 @@ public class ScaleControllerTest {
     @Test
     public void whenGetNotFound() throws Exception {
         int id = 1;
-        Mockito.when(scaleService.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(scaleService.findById(id)).thenThrow(NoResultException.class);
         String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());
