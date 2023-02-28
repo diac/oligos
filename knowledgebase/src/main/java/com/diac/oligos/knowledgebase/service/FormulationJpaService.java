@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Formulation;
 import com.diac.oligos.knowledgebase.repository.FormulationRepository;
+import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,12 +67,18 @@ public class FormulationJpaService implements FormulationService {
     /**
      * Обновить данные типа препарата в системе
      *
-     * @param formulation Тип препарата, данные которого необходимо обновить
+     * @param id Идентификатор препарата, данные которого необходимо обновить
+     * @param formulation Объект с обновленными данными препарата
      * @return Обновленный тип препарата
+     * @throws NoResultException При попытке обновить несуществующий тип препарата
      */
     @Override
-    public Formulation update(Formulation formulation) {
-        return formulationRepository.save(formulation);
+    public Formulation update(int id, Formulation formulation) {
+        return formulationRepository.findById(id)
+                .map(formulationInDb -> {
+                    formulation.setId(id);
+                    return formulationRepository.save(formulation);
+                }).orElseThrow(NoResultException::new);
     }
 
     /**

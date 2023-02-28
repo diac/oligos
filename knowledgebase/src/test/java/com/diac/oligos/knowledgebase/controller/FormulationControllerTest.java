@@ -148,9 +148,9 @@ public class FormulationControllerTest {
                 .available(true)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(formulation);
-        Mockito.when(formulationService.update(formulation)).thenReturn(formulation);
+        Mockito.when(formulationService.update(id, formulation)).thenReturn(formulation);
         mockMvc.perform(
-                        put("/formulation")
+                        put("/formulation/1")
                                 .content(jsonValue)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -166,7 +166,7 @@ public class FormulationControllerTest {
                 .build();
         String requestBody = objectWriter.writeValueAsString(formulation);
         mockMvc.perform(
-                put("/formulation")
+                put("/formulation/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
@@ -181,7 +181,7 @@ public class FormulationControllerTest {
                 .build();
         String requestBody = objectWriter.writeValueAsString(formulation);
         mockMvc.perform(
-                put("/formulation")
+                put("/formulation/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());

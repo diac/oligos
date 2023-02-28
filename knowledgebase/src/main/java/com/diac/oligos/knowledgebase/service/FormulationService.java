@@ -44,10 +44,11 @@ public interface FormulationService {
     /**
      * Обновить данные типа препарата в системе
      *
-     * @param formulation Тип препарата, данные которого необходимо обновить
+     * @param id Идентификатор препарата, данные которого необходимо обновить
+     * @param formulation Объект с обновленными данными препарата
      * @return Обновленный тип препарата
      */
-    Formulation update(Formulation formulation);
+    Formulation update(int id, Formulation formulation);
 
     /**
      * Удалить тип препарата из системы

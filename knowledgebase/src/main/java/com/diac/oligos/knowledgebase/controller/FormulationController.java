@@ -84,10 +84,10 @@ public class FormulationController {
      * @param formulation Объект с новыми данными типа препарата
      * @return Ответ с обновленным типом препарата
      */
-    @PutMapping("")
-    public ResponseEntity<Formulation> put(@RequestBody @Valid Formulation formulation) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Formulation> put(@PathVariable("id") int id, @RequestBody @Valid Formulation formulation) {
         return new ResponseEntity<>(
-                formulationService.update(formulation),
+                formulationService.update(id, formulation),
                 HttpStatus.OK
         );
     }
