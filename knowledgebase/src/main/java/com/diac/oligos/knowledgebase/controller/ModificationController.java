@@ -81,6 +81,7 @@ public class ModificationController {
     /**
      * Обновить данные модификатора
      *
+     * @param id           Идентификатор модификатора
      * @param modification Объект с новыми данными модификатора
      * @return Ответ с обновленным модификатором
      */
@@ -92,6 +93,12 @@ public class ModificationController {
         );
     }
 
+    /**
+     * Удалить модификатор
+     *
+     * @param id Идентификатор модификатора
+     * @return Тело ответа со статусом
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
         modificationService.delete(id);
