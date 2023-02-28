@@ -67,13 +67,14 @@ public class ScaleController {
     /**
      * Обновить данные масштаба
      *
+     * @param id    Идентификатор масштаба
      * @param scale Объект с новыми данными масштаба
      * @return Ответ с обновленным масштабом
      */
-    @PutMapping("")
-    public ResponseEntity<Scale> put(@RequestBody @Valid Scale scale) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Scale> put(@PathVariable("id") int id, @RequestBody @Valid Scale scale) {
         return new ResponseEntity<>(
-                scaleService.update(scale),
+                scaleService.update(id, scale),
                 HttpStatus.OK
         );
     }

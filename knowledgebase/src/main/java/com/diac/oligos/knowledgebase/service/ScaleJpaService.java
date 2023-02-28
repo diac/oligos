@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Scale;
 import com.diac.oligos.knowledgebase.repository.ScaleRepository;
+import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,12 +56,18 @@ public class ScaleJpaService implements ScaleService {
     /**
      * Обновить данные масштаба в системе
      *
-     * @param scale Масштаб, данные которого необходимо обновить
+     * @param id Идентификатор масштаба, данные которого необходимо обновить
+     * @param scale Объект с обновленными данными масштаба
      * @return Обновленный масштаб
+     * @throws NoResultException При попытке обновить несуществующий масштаб
      */
     @Override
-    public Scale update(Scale scale) {
-        return scaleRepository.save(scale);
+    public Scale update(int id, Scale scale) {
+        return scaleRepository.findById(id)
+                .map(scaleInDb -> {
+                    scale.setId(id);
+                    return scaleRepository.save(scale);
+                }).orElseThrow(NoResultException::new);
     }
 
     /**

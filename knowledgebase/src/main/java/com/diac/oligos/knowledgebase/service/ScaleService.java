@@ -36,10 +36,11 @@ public interface ScaleService {
     /**
      * Обновить данные масштаба в системе
      *
-     * @param scale Масштаб, данные которого необходимо обновить
+     * @param id Идентификатор масштаба, данные которого необходимо обновить
+     * @param scale Объект с обновленными данными масштаба
      * @return Обновленный масштаб
      */
-    Scale update(Scale scale);
+    Scale update(int id, Scale scale);
 
     /**
      * Удалить масштаб из системы

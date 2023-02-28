@@ -133,9 +133,10 @@ public class ScaleControllerTest {
                 .nanomols(nanomols)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(scale);
-        Mockito.when(scaleService.update(scale)).thenReturn(scale);
+        Mockito.when(scaleService.update(id, scale)).thenReturn(scale);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                        put(URL_BASE)
+                        put(requestUrl)
                                 .content(jsonValue)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -144,13 +145,15 @@ public class ScaleControllerTest {
 
     @Test
     public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Scale scale = Scale.builder()
-                .id(1)
+                .id(id)
                 .displayName(null)
                 .build();
         String requestBody = objectWriter.writeValueAsString(scale);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
@@ -158,13 +161,15 @@ public class ScaleControllerTest {
 
     @Test
     public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Scale scale = Scale.builder()
-                .id(1)
+                .id(id)
                 .displayName("")
                 .build();
         String requestBody = objectWriter.writeValueAsString(scale);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
@@ -172,14 +177,16 @@ public class ScaleControllerTest {
 
     @Test
     public void whenPutWithZeroNanomolsThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Scale scale = Scale.builder()
-                .id(1)
+                .id(id)
                 .nanomols(0)
                 .displayName("ZERO")
                 .build();
         String requestBody = objectWriter.writeValueAsString(scale);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
