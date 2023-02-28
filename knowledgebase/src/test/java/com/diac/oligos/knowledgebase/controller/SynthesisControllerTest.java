@@ -5,6 +5,7 @@ import com.diac.oligos.domain.model.Synthesis;
 import com.diac.oligos.knowledgebase.service.SynthesisService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -43,7 +42,7 @@ public class SynthesisControllerTest {
     @Test
     public void whenGetFound() throws Exception {
         int id = 1;
-        Mockito.when(synthesisService.findById(id)).thenReturn(Optional.of(Synthesis.builder().id(id).build()));
+        Mockito.when(synthesisService.findById(id)).thenReturn(Synthesis.builder().id(id).build());
         String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isFound());
@@ -52,7 +51,7 @@ public class SynthesisControllerTest {
     @Test
     public void whenGetNotFound() throws Exception {
         int id = 1;
-        Mockito.when(synthesisService.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(synthesisService.findById(id)).thenThrow(NoResultException.class);
         String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());
@@ -63,10 +62,10 @@ public class SynthesisControllerTest {
         String sku = "qwerty";
         Mockito.when(synthesisService.findBySku(sku))
                 .thenReturn(
-                        Optional.of(Synthesis.builder()
+                        Synthesis.builder()
                                 .id(1)
                                 .sku(sku)
-                                .build())
+                                .build()
                 );
         String requestUrl = String.format("%s/find_by_sku/%s", URL_BASE, sku);
         mockMvc.perform(get(requestUrl))
@@ -76,8 +75,7 @@ public class SynthesisControllerTest {
     @Test
     public void whenFindByNotSkuFound() throws Exception {
         String sku = "qwerty";
-        Mockito.when(synthesisService.findBySku(sku))
-                .thenReturn(Optional.empty());
+        Mockito.when(synthesisService.findBySku(sku)).thenThrow(NoResultException.class);
         String requestUrl = String.format("%s/find_by_sku/%s", URL_BASE, sku);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());
@@ -176,6 +174,7 @@ public class SynthesisControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
     }
+
     @Test
     public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
         int id = 1;

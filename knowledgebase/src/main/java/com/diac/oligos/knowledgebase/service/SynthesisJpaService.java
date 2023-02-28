@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Synthesis через JPA
@@ -35,22 +34,26 @@ public class SynthesisJpaService implements SynthesisService {
      * Найти синтез по ID
      *
      * @param id Идентификатор синтеза
-     * @return Optional с найденным синтезом. Пустой Optional, если ничего не найдено
+     * @return Синтез
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
-    public Optional<Synthesis> findById(int id) {
-        return synthesisRepository.findById(id);
+    public Synthesis findById(int id) {
+        return synthesisRepository.findById(id)
+                .orElseThrow(NoResultException::new);
     }
 
     /**
      * Найти синтез по артикулу
      *
      * @param sku Артикул
-     * @return Optional с найденным синтезом. Пустой Optional, если ничего не найдено
+     * @return Синтез
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
-    public Optional<Synthesis> findBySku(String sku) {
-        return synthesisRepository.findBySku(sku);
+    public Synthesis findBySku(String sku) {
+        return synthesisRepository.findBySku(sku)
+                .orElseThrow(NoResultException::new);
     }
 
     /**

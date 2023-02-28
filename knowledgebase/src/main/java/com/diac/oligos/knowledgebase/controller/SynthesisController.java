@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.controller;
 
 import com.diac.oligos.domain.model.Synthesis;
 import com.diac.oligos.knowledgebase.service.SynthesisService;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,14 @@ public class SynthesisController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Synthesis> getById(@PathVariable("id") int id) {
-        return synthesisService.findById(id).map(synthesis -> new ResponseEntity<>(
-                synthesis,
-                HttpStatus.FOUND
-        )).orElse(ResponseEntity.notFound().build());
+        try {
+            return new ResponseEntity<>(
+                    synthesisService.findById(id),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -58,10 +63,14 @@ public class SynthesisController {
      */
     @GetMapping("/find_by_sku/{sku}")
     public ResponseEntity<Synthesis> getBySku(@PathVariable("sku") String sku) {
-        return synthesisService.findBySku(sku).map(synthesis -> new ResponseEntity<>(
-                synthesis,
-                HttpStatus.FOUND
-        )).orElse(ResponseEntity.notFound().build());
+        try {
+            return new ResponseEntity<>(
+                    synthesisService.findBySku(sku),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -81,7 +90,7 @@ public class SynthesisController {
     /**
      * Обновить данные синтеза
      *
-     * @param id Идентификатор синтеза
+     * @param id        Идентификатор синтеза
      * @param synthesis Объект с новыми данными синтеза
      * @return Ответ с обновленным синтезом
      */
