@@ -44,10 +44,11 @@ public interface ModificationService {
     /**
      * Обновить данные модификатора в системе
      *
-     * @param modification Модификатор, данные которого необходимо обновить
+     * @param id Идентификатор модификатора, данные которого необходимо обновить
+     * @param modification Объект с обновленными данными модификатора
      * @return Обновленный модификатор
      */
-    Modification update(Modification modification);
+    Modification update(int id, Modification modification);
 
     /**
      * Удалить модификатор из системы

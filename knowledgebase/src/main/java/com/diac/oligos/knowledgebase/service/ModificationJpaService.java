@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Modification;
 import com.diac.oligos.knowledgebase.repository.ModificationRepository;
+import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,12 +67,17 @@ public class ModificationJpaService implements ModificationService {
     /**
      * Обновить данные модификатора в системе
      *
-     * @param modification Модификатор, данные которого необходимо обновить
+     * @param id Идентификатор модификатора, данные которого необходимо обновить
+     * @param modification Объект с обновленными данными модификатора
      * @return Обновленный модификатор
      */
     @Override
-    public Modification update(Modification modification) {
-        return modificationRepository.save(modification);
+    public Modification update(int id, Modification modification) {
+        return modificationRepository.findById(id)
+                .map(modificationInDb -> {
+                    modification.setId(id);
+                    return modificationRepository.save(modification);
+                }).orElseThrow(NoResultException::new);
     }
 
     /**

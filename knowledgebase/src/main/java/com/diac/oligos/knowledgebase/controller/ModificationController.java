@@ -84,10 +84,10 @@ public class ModificationController {
      * @param modification Объект с новыми данными модификатора
      * @return Ответ с обновленным модификатором
      */
-    @PutMapping("")
-    public ResponseEntity<Modification> put(@RequestBody @Valid Modification modification) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Modification> put(@PathVariable("id") int id, @RequestBody @Valid Modification modification) {
         return new ResponseEntity<>(
-                modificationService.update(modification),
+                modificationService.update(id, modification),
                 HttpStatus.OK
         );
     }

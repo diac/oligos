@@ -148,9 +148,9 @@ public class ModificationControllerTest {
                 .code(value)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(modification);
-        Mockito.when(modificationService.update(modification)).thenReturn(modification);
+        Mockito.when(modificationService.update(id, modification)).thenReturn(modification);
         mockMvc.perform(
-                        put("/modification")
+                        put("/modification/1")
                                 .content(jsonValue)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -167,14 +167,14 @@ public class ModificationControllerTest {
                 .build();
         String requestBody = objectWriter.writeValueAsString(modification);
         mockMvc.perform(
-                put("/modification")
+                put("/modification/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
     }
 
     @Test
-    public void whenPutWithBkankValuesThenStatusIsBadRequest() throws Exception {
+    public void whenPutWithBlankValuesThenStatusIsBadRequest() throws Exception {
         Modification modification = Modification.builder()
                 .id(1)
                 .name(null)
@@ -183,7 +183,7 @@ public class ModificationControllerTest {
                 .build();
         String requestBody = objectWriter.writeValueAsString(modification);
         mockMvc.perform(
-                put("/modification")
+                put("/modification/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
