@@ -67,9 +67,10 @@ public class ModificationJpaService implements ModificationService {
     /**
      * Обновить данные модификатора в системе
      *
-     * @param id Идентификатор модификатора, данные которого необходимо обновить
+     * @param id           Идентификатор модификатора, данные которого необходимо обновить
      * @param modification Объект с обновленными данными модификатора
      * @return Обновленный модификатор
+     * @throws NoResultException При попытке обновить несуществующий модификатор
      */
     @Override
     public Modification update(int id, Modification modification) {
@@ -83,10 +84,17 @@ public class ModificationJpaService implements ModificationService {
     /**
      * Удалить модификатор из системы
      *
-     * @param modification Модификатор, который необходимо удалить
+     * @param id Идентификатор модификатора, который необходимо удалить
+     * @throws NoResultException При попытке удалить несуществующий модификатор
      */
     @Override
-    public void delete(Modification modification) {
-        modificationRepository.delete(modification);
+    public void delete(int id) {
+        modificationRepository.findById(id)
+                .ifPresentOrElse(
+                        modification -> modificationRepository.deleteById(id),
+                        () -> {
+                            throw new NoResultException();
+                        }
+                );
     }
 }

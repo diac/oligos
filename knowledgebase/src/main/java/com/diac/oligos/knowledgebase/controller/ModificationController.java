@@ -94,11 +94,7 @@ public class ModificationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
-        modificationService.delete(
-                Modification.builder()
-                        .id(id)
-                        .build()
-        );
+        modificationService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -53,7 +53,7 @@ public interface ModificationService {
     /**
      * Удалить модификатор из системы
      *
-     * @param modification Модификатор, который необходимо удалить
+     * @param id Идентификатор модификатора, который необходимо удалить
      */
-    void delete(Modification modification);
+    void delete(int id);
 }
