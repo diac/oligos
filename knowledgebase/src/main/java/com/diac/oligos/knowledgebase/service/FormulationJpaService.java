@@ -84,10 +84,15 @@ public class FormulationJpaService implements FormulationService {
     /**
      * Удалить тип препарата из системы
      *
-     * @param formulation Тип препарата, который необходимо удалить
+     * @param id Идентификатор препарата, который необходимо удалить
+     * @throws NoResultException При попытке удалить несуществующий тип препарата
      */
     @Override
-    public void delete(Formulation formulation) {
-        formulationRepository.delete(formulation);
+    public void delete(int id) {
+        if (formulationRepository.existsById(id)) {
+            formulationRepository.deleteById(id);
+        } else {
+            throw new NoResultException();
+        }
     }
 }

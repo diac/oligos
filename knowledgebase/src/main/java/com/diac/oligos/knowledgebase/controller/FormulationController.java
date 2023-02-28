@@ -100,11 +100,7 @@ public class FormulationController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
-        formulationService.delete(
-                Formulation.builder()
-                        .id(id)
-                        .build()
-        );
+        formulationService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

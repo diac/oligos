@@ -53,7 +53,7 @@ public interface FormulationService {
     /**
      * Удалить тип препарата из системы
      *
-     * @param formulation Тип препарата, который необходимо удалить
+     * @param id Идентификатор препарата, который необходимо удалить
      */
-    void delete(Formulation formulation);
+    void delete(int id);
 }
