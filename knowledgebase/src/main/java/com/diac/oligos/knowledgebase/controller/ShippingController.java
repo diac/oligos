@@ -67,17 +67,24 @@ public class ShippingController {
     /**
      * Обновить данные типа доставки
      *
+     * @param id       Идентификатор типа доставки
      * @param shipping Объект с новыми данными типа доставки
      * @return Ответ с обновленным типом доставки
      */
-    @PutMapping("")
-    public ResponseEntity<Shipping> put(@RequestBody @Valid Shipping shipping) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Shipping> put(@PathVariable("id") int id, @RequestBody @Valid Shipping shipping) {
         return new ResponseEntity<>(
-                shippingService.update(shipping),
+                shippingService.update(id, shipping),
                 HttpStatus.OK
         );
     }
 
+    /**
+     * Удалить тип доставки
+     *
+     * @param id Идентификатор типа доставки
+     * @return Тело ответа со статусом
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
         shippingService.delete(

@@ -36,10 +36,11 @@ public interface ShippingService {
     /**
      * Обновить данные типа доставки в системе
      *
-     * @param shipping Тип доставки, данные которого необходимо обновить
+     * @param id       Идентификатор типа доставки, данные которого необходимо обновить
+     * @param shipping Объект с обновленными данными типа доставки
      * @return Обновленный тип доставки
      */
-    Shipping update(Shipping shipping);
+    Shipping update(int id, Shipping shipping);
 
     /**
      * Удалить тип доставки из системы

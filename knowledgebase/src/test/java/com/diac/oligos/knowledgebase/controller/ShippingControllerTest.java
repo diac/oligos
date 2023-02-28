@@ -114,9 +114,10 @@ public class ShippingControllerTest {
                 .name(value)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(shipping);
-        Mockito.when(shippingService.update(shipping)).thenReturn(shipping);
+        Mockito.when(shippingService.update(id, shipping)).thenReturn(shipping);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                        put(URL_BASE)
+                        put(requestUrl)
                                 .content(jsonValue)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -125,13 +126,15 @@ public class ShippingControllerTest {
 
     @Test
     public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Shipping shipping = Shipping.builder()
                 .id(1)
                 .name(null)
                 .build();
         String requestBody = objectWriter.writeValueAsString(shipping);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
@@ -139,13 +142,15 @@ public class ShippingControllerTest {
 
     @Test
     public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Shipping shipping = Shipping.builder()
                 .id(1)
                 .name(null)
                 .build();
         String requestBody = objectWriter.writeValueAsString(shipping);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());

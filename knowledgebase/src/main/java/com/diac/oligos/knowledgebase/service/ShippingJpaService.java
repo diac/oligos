@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Shipping;
 import com.diac.oligos.knowledgebase.repository.ShippingRepository;
+import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,12 +56,18 @@ public class ShippingJpaService implements ShippingService {
     /**
      * Обновить данные типа доставки в системе
      *
-     * @param shipping Тип доставки, данные которого необходимо обновить
+     * @param id       Идентификатор типа доставки, данные которого необходимо обновить
+     * @param shipping Объект с обновленными данными типа доставки
      * @return Обновленный тип доставки
+     * @throws NoResultException При попытке обновить несуществующий тип доставки
      */
     @Override
-    public Shipping update(Shipping shipping) {
-        return shippingRepository.save(shipping);
+    public Shipping update(int id, Shipping shipping) {
+        return shippingRepository.findById(id)
+                .map(shippingInDb -> {
+                    shipping.setId(id);
+                    return shippingRepository.save(shipping);
+                }).orElseThrow(NoResultException::new);
     }
 
     /**
