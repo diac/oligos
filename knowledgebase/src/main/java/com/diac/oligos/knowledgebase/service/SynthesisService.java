@@ -44,10 +44,11 @@ public interface SynthesisService {
     /**
      * Обновить данные синтеза в системе
      *
-     * @param synthesis Синтез, данные которого необходимо обновить
+     * @param id        Идентификатор синтеза, данные которого необходимо обновить
+     * @param synthesis Объект с обновленными данными синтеза
      * @return Обновленный синтез
      */
-    Synthesis update(Synthesis synthesis);
+    Synthesis update(int id, Synthesis synthesis);
 
     /**
      * Удалить синтез из системы

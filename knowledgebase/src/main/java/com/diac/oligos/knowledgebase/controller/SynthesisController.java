@@ -81,13 +81,14 @@ public class SynthesisController {
     /**
      * Обновить данные синтеза
      *
+     * @param id Идентификатор синтеза
      * @param synthesis Объект с новыми данными синтеза
      * @return Ответ с обновленным синтезом
      */
-    @PutMapping("")
-    public ResponseEntity<Synthesis> put(@RequestBody @Valid Synthesis synthesis) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Synthesis> put(@PathVariable("id") int id, @RequestBody @Valid Synthesis synthesis) {
         return new ResponseEntity<>(
-                synthesisService.update(synthesis),
+                synthesisService.update(id, synthesis),
                 HttpStatus.OK
         );
     }

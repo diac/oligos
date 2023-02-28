@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.service;
 
 import com.diac.oligos.domain.model.Synthesis;
 import com.diac.oligos.knowledgebase.repository.SynthesisRepository;
+import jakarta.persistence.NoResultException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,12 +67,17 @@ public class SynthesisJpaService implements SynthesisService {
     /**
      * Обновить данные синтеза в системе
      *
-     * @param synthesis Синтез, данные которого необходимо обновить
+     * @param id        Идентификатор синтеза, данные которого необходимо обновить
+     * @param synthesis Объект с обновленными данными синтеза
      * @return Обновленный синтез
      */
     @Override
-    public Synthesis update(Synthesis synthesis) {
-        return synthesisRepository.save(synthesis);
+    public Synthesis update(int id, Synthesis synthesis) {
+        return synthesisRepository.findById(id)
+                .map(synthesisInDb -> {
+                    synthesis.setId(id);
+                    return synthesisRepository.save(synthesis);
+                }).orElseThrow(NoResultException::new);
     }
 
     /**

@@ -149,9 +149,10 @@ public class SynthesisControllerTest {
                 .baseType(BaseType.DNA)
                 .build();
         String jsonValue = objectWriter.writeValueAsString(synthesis);
-        Mockito.when(synthesisService.update(synthesis)).thenReturn(synthesis);
+        Mockito.when(synthesisService.update(id, synthesis)).thenReturn(synthesis);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                        put(URL_BASE)
+                        put(requestUrl)
                                 .content(jsonValue)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
@@ -160,30 +161,34 @@ public class SynthesisControllerTest {
 
     @Test
     public void whenPutWithNullValuesThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Synthesis synthesis = Synthesis.builder()
-                .id(1)
+                .id(id)
                 .name(null)
                 .sku(null)
                 .baseType(null)
                 .build();
         String requestBody = objectWriter.writeValueAsString(synthesis);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
     }
     @Test
     public void whenPutWithBlankValuesThenResponseStatusIsBadRequest() throws Exception {
+        int id = 1;
         Synthesis synthesis = Synthesis.builder()
-                .id(1)
+                .id(id)
                 .name("")
                 .sku("")
                 .baseType(BaseType.DNA)
                 .build();
         String requestBody = objectWriter.writeValueAsString(synthesis);
+        String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(
-                put(URL_BASE)
+                put(requestUrl)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
