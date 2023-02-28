@@ -67,7 +67,7 @@ public class FormulationJpaService implements FormulationService {
     /**
      * Обновить данные типа препарата в системе
      *
-     * @param id Идентификатор препарата, данные которого необходимо обновить
+     * @param id          Идентификатор препарата, данные которого необходимо обновить
      * @param formulation Объект с обновленными данными препарата
      * @return Обновленный тип препарата
      * @throws NoResultException При попытке обновить несуществующий тип препарата
@@ -89,10 +89,12 @@ public class FormulationJpaService implements FormulationService {
      */
     @Override
     public void delete(int id) {
-        if (formulationRepository.existsById(id)) {
-            formulationRepository.deleteById(id);
-        } else {
-            throw new NoResultException();
-        }
+        formulationRepository.findById(id)
+                .ifPresentOrElse(
+                        formulation -> formulationRepository.deleteById(id),
+                        () -> {
+                            throw new NoResultException();
+                        }
+                );
     }
 }
