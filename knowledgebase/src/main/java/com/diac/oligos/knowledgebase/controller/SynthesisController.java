@@ -101,11 +101,7 @@ public class SynthesisController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
-        synthesisService.delete(
-                Synthesis.builder()
-                        .id(id)
-                        .build()
-        );
+        synthesisService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

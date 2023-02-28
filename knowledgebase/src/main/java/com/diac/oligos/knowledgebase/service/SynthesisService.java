@@ -53,7 +53,7 @@ public interface SynthesisService {
     /**
      * Удалить синтез из системы
      *
-     * @param synthesis Синтез, который необходимо удалить
+     * @param id Идентификатор синтеза, который необходимо удалить
      */
-    void delete(Synthesis synthesis);
+    void delete(int id);
 }

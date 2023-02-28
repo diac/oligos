@@ -70,6 +70,7 @@ public class SynthesisJpaService implements SynthesisService {
      * @param id        Идентификатор синтеза, данные которого необходимо обновить
      * @param synthesis Объект с обновленными данными синтеза
      * @return Обновленный синтез
+     * @throws NoResultException При попытке обновить несуществующий синтез
      */
     @Override
     public Synthesis update(int id, Synthesis synthesis) {
@@ -83,10 +84,17 @@ public class SynthesisJpaService implements SynthesisService {
     /**
      * Удалить синтез из системы
      *
-     * @param synthesis Синтез, который необходимо удалить
+     * @param id Идентификатор синтеза, который необходимо удалить
+     * @throws NoResultException При попытке удалить несуществующий синтез
      */
     @Override
-    public void delete(Synthesis synthesis) {
-        synthesisRepository.delete(synthesis);
+    public void delete(int id) {
+        synthesisRepository.findById(id)
+                .ifPresentOrElse(
+                        synthesis -> synthesisRepository.deleteById(id),
+                        () -> {
+                            throw new NoResultException();
+                        }
+                );
     }
 }
