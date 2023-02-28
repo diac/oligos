@@ -45,7 +45,7 @@ public interface ScaleService {
     /**
      * Удалить масштаб из системы
      *
-     * @param scale Масштаб, который необходимо удалить
+     * @param id Идентификатор масштаба, который необходимо удалить
      */
-    void delete(Scale scale);
+    void delete(int id);
 }

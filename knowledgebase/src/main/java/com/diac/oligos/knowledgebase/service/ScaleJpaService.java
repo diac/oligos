@@ -56,7 +56,7 @@ public class ScaleJpaService implements ScaleService {
     /**
      * Обновить данные масштаба в системе
      *
-     * @param id Идентификатор масштаба, данные которого необходимо обновить
+     * @param id    Идентификатор масштаба, данные которого необходимо обновить
      * @param scale Объект с обновленными данными масштаба
      * @return Обновленный масштаб
      * @throws NoResultException При попытке обновить несуществующий масштаб
@@ -73,10 +73,17 @@ public class ScaleJpaService implements ScaleService {
     /**
      * Удалить масштаб из системы
      *
-     * @param scale Масштаб, который необходимо удалить
+     * @param id Идентификатор масштаба, который необходимо удалить
+     * @throws NoResultException При попытке обновить несуществующий масштаб
      */
     @Override
-    public void delete(Scale scale) {
-        scaleRepository.delete(scale);
+    public void delete(int id) {
+        scaleRepository.findById(id)
+                .ifPresentOrElse(
+                        scale -> scaleRepository.deleteById(id),
+                        () -> {
+                            throw new NoResultException();
+                        }
+                );
     }
 }

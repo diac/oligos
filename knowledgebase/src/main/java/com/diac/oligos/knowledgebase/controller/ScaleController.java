@@ -87,11 +87,7 @@ public class ScaleController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
-        scaleService.delete(
-                Scale.builder()
-                        .id(id)
-                        .build()
-        );
+        scaleService.delete(id);
         return ResponseEntity.ok().build();
     }
 }
