@@ -3,7 +3,6 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Shipping;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Shipping
@@ -21,9 +20,9 @@ public interface ShippingService {
      * Найти тип доставки по ID
      *
      * @param id Идентификатор типа доставки
-     * @return Optional с найденным типом доставки. Пустой Optional, если ничего не найдено
+     * @return Тип доставки
      */
-    Optional<Shipping> findById(int id);
+    Shipping findById(int id);
 
     /**
      * Добавить новый тип доставки в систему

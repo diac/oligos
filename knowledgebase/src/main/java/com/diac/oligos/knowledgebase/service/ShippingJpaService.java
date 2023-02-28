@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Shipping
@@ -35,11 +34,13 @@ public class ShippingJpaService implements ShippingService {
      * Найти тип доставки по ID
      *
      * @param id Идентификатор типа доставки
-     * @return Optional с найденным типом доставки. Пустой Optional, если ничего не найдено
+     * @return Тип доставки
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
-    public Optional<Shipping> findById(int id) {
-        return shippingRepository.findById(id);
+    public Shipping findById(int id) {
+        return shippingRepository.findById(id)
+                .orElseThrow(NoResultException::new);
     }
 
     /**

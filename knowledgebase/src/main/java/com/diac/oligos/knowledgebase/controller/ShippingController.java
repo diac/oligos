@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.controller;
 
 import com.diac.oligos.domain.model.Shipping;
 import com.diac.oligos.knowledgebase.service.ShippingService;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,14 @@ public class ShippingController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Shipping> getById(@PathVariable("id") int id) {
-        return shippingService.findById(id).map(shipping -> new ResponseEntity<>(
-                shipping,
-                HttpStatus.FOUND
-        )).orElse(ResponseEntity.notFound().build());
+        try {
+            return new ResponseEntity<>(
+                    shippingService.findById(id),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
