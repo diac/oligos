@@ -4,6 +4,7 @@ import com.diac.oligos.domain.model.Purification;
 import com.diac.oligos.knowledgebase.service.PurificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -40,7 +39,7 @@ public class PurificationControllerTest {
     @Test
     public void whenGetFound() throws Exception {
         int id = 1;
-        Mockito.when(purificationService.findById(id)).thenReturn(Optional.of(Purification.builder().id(id).build()));
+        Mockito.when(purificationService.findById(id)).thenReturn(Purification.builder().id(id).build());
         String requestUrl = String.format("/purification/%d", id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isFound());
@@ -49,7 +48,7 @@ public class PurificationControllerTest {
     @Test
     public void whenGetNotFound() throws Exception {
         int id = 1;
-        Mockito.when(purificationService.findById(id)).thenReturn(Optional.empty());
+        Mockito.when(purificationService.findById(id)).thenThrow(NoResultException.class);
         String requestUrl = String.format("/purification/%d", id);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());
@@ -60,11 +59,10 @@ public class PurificationControllerTest {
         String sku = "qwerty";
         Mockito.when(purificationService.findBySku(sku))
                 .thenReturn(
-                        Optional.of(Purification.builder()
+                        Purification.builder()
                                 .id(1)
                                 .sku(sku)
                                 .build()
-                        )
                 );
         String requestUrl = String.format("/purification/find_by_sku/%s", sku);
         mockMvc.perform(get(requestUrl))
@@ -74,7 +72,7 @@ public class PurificationControllerTest {
     @Test
     public void whenFindBySkuNotFound() throws Exception {
         String sku = "qwerty";
-        Mockito.when(purificationService.findBySku(sku)).thenReturn(Optional.empty());
+        Mockito.when(purificationService.findBySku(sku)).thenThrow(NoResultException.class);
         String requestUrl = String.format("/purification/find_by_sku/%s", sku);
         mockMvc.perform(get(requestUrl))
                 .andExpect(status().isNotFound());

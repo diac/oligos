@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Purification через JPA
@@ -35,22 +34,26 @@ public class PurificationJpaService implements PurificationService {
      * Найти тип очистки по ID
      *
      * @param id Идентификатор типа очистки
-     * @return Optional с найденным типом очистки. Пустой Optional, если ничего не найдено
+     * @return Тип очистки
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
-    public Optional<Purification> findById(int id) {
-        return purificationRepository.findById(id);
+    public Purification findById(int id) {
+        return purificationRepository.findById(id)
+                .orElseThrow(NoResultException::new);
     }
 
     /**
      * Найти тип очистки по артикулу
      *
      * @param sku Артикул типа очистки
-     * @return Optional с найденным типом очистки. Пустой Optional, если ничего не найдено
+     * @return Тип очистки
+     * @throws NoResultException Если ничего не найдено
      */
     @Override
-    public Optional<Purification> findBySku(String sku) {
-        return purificationRepository.findBySku(sku);
+    public Purification findBySku(String sku) {
+        return purificationRepository.findBySku(sku)
+                .orElseThrow(NoResultException::new);
     }
 
     /**

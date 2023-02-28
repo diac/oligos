@@ -3,7 +3,6 @@ package com.diac.oligos.knowledgebase.service;
 import com.diac.oligos.domain.model.Purification;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для работы с объектами модели Purification
@@ -21,17 +20,17 @@ public interface PurificationService {
      * Найти тип очистки по ID
      *
      * @param id Идентификатор типа очистки
-     * @return Optional с найденным типом очистки. Пустой Optional, если ничего не найдено
+     * @return Тип очистки
      */
-    Optional<Purification> findById(int id);
+    Purification findById(int id);
 
     /**
      * Найти тип очистки по артикулу
      *
      * @param sku Артикул типа очистки
-     * @return Optional с найденным типом очистки. Пустой Optional, если ничего не найдено
+     * @return Тип очистки
      */
-    Optional<Purification> findBySku(String sku);
+    Purification findBySku(String sku);
 
     /**
      * Добавить новый тип очистки в систему
@@ -44,7 +43,7 @@ public interface PurificationService {
     /**
      * Обновить данные типа очистки в системе
      *
-     * @param id Идентификатор типа очистки, данные которого необходимо обновить
+     * @param id           Идентификатор типа очистки, данные которого необходимо обновить
      * @param purification Объект с обновленными данными типа очистки
      * @return Обновленный тип очистки
      */

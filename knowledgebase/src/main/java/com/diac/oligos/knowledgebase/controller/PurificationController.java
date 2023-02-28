@@ -2,6 +2,7 @@ package com.diac.oligos.knowledgebase.controller;
 
 import com.diac.oligos.domain.model.Purification;
 import com.diac.oligos.knowledgebase.service.PurificationService;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,10 +45,14 @@ public class PurificationController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Purification> getById(@PathVariable("id") int id) {
-        return purificationService.findById(id).map(purification -> new ResponseEntity<>(
-                purification,
-                HttpStatus.FOUND
-        )).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            return new ResponseEntity<>(
+                    purificationService.findById(id),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
@@ -58,10 +63,14 @@ public class PurificationController {
      */
     @GetMapping("/find_by_sku/{sku}")
     public ResponseEntity<Purification> getBySku(@PathVariable("sku") String sku) {
-        return purificationService.findBySku(sku).map(purification -> new ResponseEntity<>(
-                purification,
-                HttpStatus.FOUND
-        )).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            return new ResponseEntity<>(
+                    purificationService.findBySku(sku),
+                    HttpStatus.FOUND
+            );
+        } catch (NoResultException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
