@@ -1,6 +1,8 @@
 package com.diac.oligos.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -28,6 +30,8 @@ public class PriceSchedule {
     /**
      * Имя прейскуранта
      */
+    @NotNull(message = "Price Schedule name is required")
+    @NotBlank(message = "Price Schedule name cannot be blank")
     private String name;
 
     /**
