@@ -1,6 +1,6 @@
 CREATE TABLE formulation (
     id SERIAL PRIMARY KEY,
-    name VARCHAR UNIQUE UNIQUE NOT NULL,
+    name VARCHAR UNIQUE NOT NULL,
     available BOOLEAN,
     sku VARCHAR UNIQUE NOT NULL
 );
