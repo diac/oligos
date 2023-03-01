@@ -1,17 +1,18 @@
 package com.diac.oligos.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 /**
  * Модель данных "Цена синтеза"
  */
+@Entity
+@Table(name = "synthesis_price")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 public class SynthesisPrice {
 
     /**
@@ -28,15 +29,19 @@ public class SynthesisPrice {
     /**
      * Артикул синтеза
      */
+    @Column(name = "synthesis_sku")
     private String synthesisSku;
 
     /**
-     * Масштаб
+     * Масштаб в наномолях
      */
-    private Scale scale;
+    @Column(name = "scale_nanomols")
+    private int scaleNanomols;
 
     /**
      * Прейскурант
      */
+    @ManyToOne
+    @JoinColumn(name = "price_schedule_id")
     private PriceSchedule priceSchedule;
 }
