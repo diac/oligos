@@ -17,6 +17,7 @@
     <modules>
         <module>domain</module>
         <module>knowledgebase</module>
+        <module>priceschedule</module>
     </modules>
 
     <properties>
