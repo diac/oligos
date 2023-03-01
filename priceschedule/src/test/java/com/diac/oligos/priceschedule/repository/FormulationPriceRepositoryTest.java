@@ -246,17 +246,22 @@ public class FormulationPriceRepositoryTest {
                         .effective(false)
                         .build()
         );
-        FormulationPrice formulationPrice = FormulationPrice.builder()
-                .amount(amount)
-                .formulationSku(str)
-                .priceSchedule(priceSchedule)
-                .build();
-        FormulationPrice duplicateFormulationPrice = FormulationPrice.builder()
-                .amount(amount)
-                .formulationSku(str)
-                .priceSchedule(priceSchedule)
-                .build();
-        formulationPriceRepository.save(formulationPrice);
+        FormulationPrice formulationPrice = formulationPriceRepository.save(
+                FormulationPrice.builder()
+                        .amount(amount)
+                        .formulationSku(str)
+                        .priceSchedule(priceSchedule)
+                        .build()
+        );
+        FormulationPrice duplicateFormulationPrice = formulationPriceRepository.save(
+                FormulationPrice.builder()
+                        .amount(amount + 1000)
+                        .formulationSku(str + "_another")
+                        .priceSchedule(priceSchedule)
+                        .build()
+        );
+        duplicateFormulationPrice.setAmount(formulationPrice.getAmount());
+        duplicateFormulationPrice.setFormulationSku(formulationPrice.getFormulationSku());
         assertThatThrownBy(
                 () -> {
                     formulationPriceRepository.save(duplicateFormulationPrice);
