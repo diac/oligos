@@ -42,7 +42,7 @@ public class FormulationPriceJpaServiceTest {
     }
 
     @Test
-    public void whenFindBy() {
+    public void whenFindById() {
         int id = 1;
         FormulationPrice expectedFormulationPrice = FormulationPrice.builder()
                 .id(id)
