@@ -24,7 +24,7 @@ public class FormulationJpaServiceTest {
     private FormulationService formulationService;
 
     @MockBean
-    private  FormulationRepository formulationRepository;
+    private FormulationRepository formulationRepository;
 
     @Test
     public void whenFindAll() {
