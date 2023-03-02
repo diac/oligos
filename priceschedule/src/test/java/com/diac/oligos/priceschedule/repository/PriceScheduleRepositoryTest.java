@@ -3,7 +3,6 @@ package com.diac.oligos.priceschedule.repository;
 import com.diac.oligos.domain.model.PriceSchedule;
 import com.diac.oligos.priceschedule.config.DataConfig;
 import jakarta.validation.ConstraintViolationException;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,7 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @ContextConfiguration(classes = {
@@ -185,5 +185,21 @@ public class PriceScheduleRepositoryTest {
         );
         priceScheduleRepository.delete(priceSchedule);
         assertThat(priceScheduleRepository.findAll()).doesNotContain(priceSchedule);
+    }
+
+    @Test
+    public void whenFindFirstByEffectiveTrue() {
+        String str = String.valueOf(System.currentTimeMillis());
+        LocalDateTime now = LocalDateTime.now();
+        PriceSchedule priceSchedule = priceScheduleRepository.save(
+                PriceSchedule.builder()
+                        .name(str)
+                        .created(now)
+                        .effective(true)
+                        .build()
+        );
+        PriceSchedule priceScheduleInDb = priceScheduleRepository.findFirstByEffectiveTrue()
+                .orElse(new PriceSchedule());
+        assertThat(priceSchedule).isEqualTo(priceScheduleInDb);
     }
 }
