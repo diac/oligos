@@ -135,4 +135,13 @@ public class FormulationPriceJpaServiceTest {
         Mockito.verify(formulationPriceRepository).findById(id);
         Mockito.verify(formulationPriceRepository).deleteById(id);
     }
+
+    @Test
+    public void whenDeleteNonExistentThenThrowException() {
+        int id = 1;
+        Mockito.when(formulationPriceRepository.findById(id)).thenReturn(Optional.empty());
+        assertThatThrownBy(
+                () -> formulationPriceService.delete(id)
+        ).isInstanceOf(NoResultException.class);
+    }
 }
