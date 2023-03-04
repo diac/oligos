@@ -35,3 +35,4 @@ build/
 ### Project specific ###
 /knowledgebase/src/main/resources/application.properties
 /priceschedule/src/main/resources/application.properties
+/admin/src/main/resources/application.properties
