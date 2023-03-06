@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "users")
 @Data
 @AllArgsConstructor
@@ -29,4 +31,16 @@ public class User {
     @NotNull
     @Field(name = "isAdminUser")
     private boolean isAdmin;
+
+    @Field(name = "isAccountExpired")
+    private boolean isAccountExpired;
+
+    @Field(name = "isAccountLocked")
+    private boolean isAccountLocked;
+
+    @Field(name = "isEnabled")
+    private boolean isEnabled;
+
+    @Field(name = "credentialsExpiryDate")
+    private LocalDateTime credentialsExpiryDate;
 }
