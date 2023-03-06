@@ -28,5 +28,5 @@ public class User {
 
     @NotNull
     @Field(name = "isAdminUser")
-    private String isAdmin;
+    private boolean isAdmin;
 }
