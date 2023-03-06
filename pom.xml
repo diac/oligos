@@ -19,6 +19,7 @@
         <module>knowledgebase</module>
         <module>priceschedule</module>
         <module>admin</module>
+        <module>servicediscovery</module>
     </modules>
 
     <properties>
