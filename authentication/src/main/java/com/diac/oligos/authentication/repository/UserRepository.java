@@ -16,6 +16,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      * Найти пользователя по имени пользователя и паролю
      *
      * @param username Имя пользователя
+     * @return Optional с найденным пользователем. Пустой Optional, если ничего не найдено
+     */
+    Optional<User> findByUsername(String username);
+
+    /**
+     * Найти пользователя по имени пользователя и паролю
+     *
+     * @param username Имя пользователя
      * @param password Пароль
      * @return Optional с найденным пользователем. Пустой Optional, если ничего не найдено
      */
