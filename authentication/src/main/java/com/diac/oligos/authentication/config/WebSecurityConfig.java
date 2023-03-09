@@ -1,28 +1,34 @@
 package com.diac.oligos.authentication.config;
 
-import com.diac.oligos.authentication.filter.JwtAuthenticationFilter;
-import com.diac.oligos.authentication.filter.JwtAuthorizationFilter;
-import lombok.AllArgsConstructor;
+import com.diac.oligos.authentication.filter.UserCredentialsAuthFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
 
     private final UserDetailsService userDetailsService;
+
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -33,27 +39,24 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(authenticationProvider());
-        return authenticationManagerBuilder.build();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+        httpSecurity
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .addFilterBefore(
+                        new UserCredentialsAuthFilter(authenticationProvider(), jwtSecret),
+                        BasicAuthenticationFilter.class
+                )
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(httpSecurity)))
-                .addFilterAfter(
-                        new JwtAuthorizationFilter(authenticationManager(httpSecurity)),
-                        JwtAuthenticationFilter.class
-                )
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
-                .and().httpBasic();
+                .authorizeHttpRequests(
+                        requests -> {
+                            requests
+                                    .requestMatchers(HttpMethod.POST, "/v1/sign_in").permitAll()
+                                    .anyRequest().authenticated();
+                        }
+                );
         return httpSecurity.getOrBuild();
     }
 }
