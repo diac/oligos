@@ -1,5 +1,32 @@
 version: "3.9"
 services:
+  db_oligos_authentication:
+    image: postgres
+    container_name: db_oligos_authentication
+    environment:
+      - POSTGRES_USER=db_username
+      - POSTGRES_PASSWORD=db_password
+      - POSTGRES_DB=oligos_authentication
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./db/db_oligos_auth/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+  app_oligos_authentication:
+    build:
+      context: .
+      dockerfile: authentication/Dockerfile
+    container_name: app_oligos_authentication
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_oligos_knowledgebase:5432/oligos_authentication
+      - SPRING_DATASOURCE_USERNAME=db_username
+      - SPRING_DATASOURCE_PASSWORD=db_password
+      - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/liquibase-changelog.xml
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db_oligos_authentication
   db_oligos_knowledgebase:
     image: postgres
     container_name: db_oligos_knowledgebase
@@ -24,6 +51,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=db_password
       - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/liquibase-changelog.xml
     ports:
-      - "8081:8080"
+      - "8082:8080"
     depends_on:
       - db_oligos_knowledgebase
