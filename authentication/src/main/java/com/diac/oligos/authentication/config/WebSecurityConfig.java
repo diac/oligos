@@ -50,10 +50,10 @@ public class WebSecurityConfig {
                         new JwtAuthorizationFilter(authenticationManager(httpSecurity)),
                         JwtAuthenticationFilter.class
                 )
-                .authorizeRequests()
+                .authorizeHttpRequests()
                 .anyRequest()
                 .authenticated()
                 .and().httpBasic();
-        return httpSecurity.build();
+        return httpSecurity.getOrBuild();
     }
 }

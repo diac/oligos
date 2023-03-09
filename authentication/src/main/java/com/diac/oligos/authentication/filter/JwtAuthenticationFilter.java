@@ -14,13 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-@Component
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final long TOKEN_EXPIRATION_TIME = 1_800_000;
