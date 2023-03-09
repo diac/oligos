@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Component
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final long TOKEN_EXPIRATION_TIME = 1_800_000;
 
@@ -34,7 +34,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public JWTAuthenticationFilter(AuthenticationManager auth) {
+    public JwtAuthenticationFilter(AuthenticationManager auth) {
         this.auth = auth;
     }
 

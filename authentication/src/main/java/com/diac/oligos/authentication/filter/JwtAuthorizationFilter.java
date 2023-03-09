@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @Component
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private static final String TOKEN_PREFIX = "Bearer ";
 
@@ -26,7 +26,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    public JwtAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
 
