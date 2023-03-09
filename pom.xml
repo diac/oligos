@@ -19,9 +19,7 @@
         <module>knowledgebase</module>
         <module>priceschedule</module>
         <module>admin</module>
-        <module>servicediscovery</module>
         <module>authentication</module>
-        <module>apigateway</module>
     </modules>
 
     <properties>
