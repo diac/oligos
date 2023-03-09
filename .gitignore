@@ -37,3 +37,4 @@ build/
 /priceschedule/src/main/resources/application.properties
 /admin/src/main/resources/application.properties
 /servicediscovery/src/main/resources/application.properties
+/authentication/src/main/resources/application.properties
