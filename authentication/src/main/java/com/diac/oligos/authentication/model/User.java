@@ -9,7 +9,7 @@ import lombok.*;
  * Модель данных "Пользователь"
  */
 @Entity
-@Table(name = "user")
+@Table(name = "auth_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
