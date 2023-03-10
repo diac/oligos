@@ -44,7 +44,7 @@ public class FormulationPriceController {
      * @return Ответ с найденной ценой и статусом Found. Пустой ответ со статусом Not Found, если ничего не найдено
      */
     @GetMapping("/{id}")
-    public ResponseEntity<FormulationPrice> getById(@PathVariable int id) {
+    public ResponseEntity<FormulationPrice> getById(@PathVariable("id") int id) {
         try {
             return new ResponseEntity<>(
                     formulationPriceService.findById(id),
