@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+  ### Authentication ###
   db_oligos_authentication:
     image: postgres
     container_name: db_oligos_authentication
@@ -24,11 +25,12 @@ services:
       - SPRING_DATASOURCE_PASSWORD=db_password
       - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/liquibase-changelog.xml
       - security.b-crypt-encoder-strength=some_int_value
-      - jwt.secret=jwt_secret_value
+      - jwt.secret=jwt_secret_at_least_256_characters
     ports:
       - "8081:8080"
     depends_on:
       - db_oligos_authentication
+  ### Knowledgebase ###
   db_oligos_knowledgebase:
     image: postgres
     container_name: db_oligos_knowledgebase
@@ -40,7 +42,7 @@ services:
     volumes:
       - ./db/db_oligos_knowledgebase/data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
     restart: always
   app_oligos_knowledgebase:
     build:
@@ -52,7 +54,10 @@ services:
       - SPRING_DATASOURCE_USERNAME=db_username
       - SPRING_DATASOURCE_PASSWORD=db_password
       - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/liquibase-changelog.xml
+      - spring.kafka.bootstrap-servers=kafka_server_url
+      - jwt.secret=jwt_secret_at_least_256_characters
     ports:
       - "8082:8080"
     depends_on:
       - db_oligos_knowledgebase
+    ########
