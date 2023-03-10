@@ -7,3 +7,4 @@ spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 spring.liquibase.change-log=classpath:db/liquibase-changelog.xml
 spring.kafka.consumer.group-id=kafka_group_id
 spring.kafka.bootstrap-servers=kafka_bootstrap_servers
+jwt.secret=jwt_secret_at_least_256_characters
