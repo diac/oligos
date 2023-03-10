@@ -6,4 +6,4 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 spring.liquibase.change-log=classpath:db/liquibase-changelog.xml
 security.b-crypt-encoder-strength=some_integer_value
-jwt.secret=jwt_secret
+jwt.secret=jwt_secret_at_least_256_characters
