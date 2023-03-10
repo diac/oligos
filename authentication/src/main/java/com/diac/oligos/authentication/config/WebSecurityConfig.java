@@ -1,8 +1,8 @@
 package com.diac.oligos.authentication.config;
 
 import com.diac.oligos.authentication.filter.UserCredentialsAuthFilter;
+import com.diac.oligos.authentication.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,8 +27,7 @@ public class WebSecurityConfig {
 
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    private final JwtService jwtService;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -44,7 +43,7 @@ public class WebSecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .addFilterBefore(
-                        new UserCredentialsAuthFilter(authenticationProvider(), jwtSecret),
+                        new UserCredentialsAuthFilter(authenticationProvider(), jwtService),
                         BasicAuthenticationFilter.class
                 )
                 .csrf().disable()

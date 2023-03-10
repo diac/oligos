@@ -1,8 +1,7 @@
 package com.diac.oligos.authentication.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.diac.oligos.authentication.dto.UserCredentialsDto;
+import com.diac.oligos.authentication.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,12 +18,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.nio.CharBuffer;
 import java.util.Collections;
-import java.util.Date;
 
 @RequiredArgsConstructor
 public class UserCredentialsAuthFilter extends OncePerRequestFilter {
-
-    private static final long TOKEN_EXPIRATION_TIME = 1_800_000;
 
     private static final String TOKEN_PREFIX = "Bearer ";
 
@@ -34,7 +30,7 @@ public class UserCredentialsAuthFilter extends OncePerRequestFilter {
 
     private final AuthenticationProvider authenticationProvider;
 
-    private final String jwtSecret;
+    private final JwtService jwtService;
 
     @Override
     protected void doFilterInternal(
@@ -58,10 +54,7 @@ public class UserCredentialsAuthFilter extends OncePerRequestFilter {
                 );
                 Authentication authentication = authenticationProvider.authenticate(authenticationToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                String jwtToken = JWT.create()
-                        .withSubject(((User) authentication.getPrincipal()).getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME))
-                        .sign(Algorithm.HMAC512(jwtSecret.getBytes()));
+                String jwtToken = jwtService.createJwtToken(((User) authentication.getPrincipal()));
                 response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwtToken);
             } catch (RuntimeException e) {
                 SecurityContextHolder.clearContext();
