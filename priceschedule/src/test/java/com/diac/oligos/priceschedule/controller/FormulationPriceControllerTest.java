@@ -209,5 +209,6 @@ public class FormulationPriceControllerTest {
         String requestUrl = String.format("%s/%d", URL_BASE, id);
         mockMvc.perform(delete(requestUrl))
                 .andExpect(status().isOk());
+        Mockito.verify(formulationPriceService).delete(id);
     }
 }
