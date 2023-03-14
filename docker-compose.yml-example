@@ -60,4 +60,32 @@ services:
       - "8082:8080"
     depends_on:
       - db_oligos_knowledgebase
-    ########
+  ### Price Schedule ###
+    db_oligos_price_schedule:
+      image: postgres
+      container_name: db_oligos_price_schedule
+      environment:
+        - POSTGRES_USER=db_username
+        - POSTGRES_PASSWORD=db_password
+        - POSTGRES_DB=oligos_price_schedule
+        - PGDATA=/var/lib/postgresql/data
+      volumes:
+        - ./db/db_oligos_price_schedule/data:/var/lib/postgresql/data
+      ports:
+        - "5434:5432"
+      restart: always
+    app_oligos_price_schedule:
+      build:
+        context: .
+        dockerfile: priceschedule/Dockerfile
+      container_name: app_oligos_price_schedule
+      environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db_oligos_price_schedule:5432/oligos_price_schedule
+        - SPRING_DATASOURCE_USERNAME=db_username
+        - SPRING_DATASOURCE_PASSWORD=db_password
+        - SPRING_LIQUIBASE_CHANGE-LOG=classpath:db/liquibase-changelog.xml
+      ports:
+        - "8083:8080"
+      depends_on:
+          - db_oligos_price_schedule
+  ########
